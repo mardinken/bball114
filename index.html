@@ -605,6 +605,22 @@ async function seedRounds() {
   await db.ref('rounds').set(roundsObj);
 }
 
+async function forceInitRounds() {
+  spinner(true);
+  try {
+    await db.ref('rounds').remove();
+    const roundsObj = {};
+    ROUNDS_TEMPLATE.forEach(r => {
+      const games = {};
+      r.games.forEach(g => { games[g.id] = { ...g, winner: null }; });
+      roundsObj[r.id] = { id:r.id, label:r.label, date:r.date, status:r.status, games };
+    });
+    await db.ref('rounds').set(roundsObj);
+    spinner(false);
+    toast('✅ 賽程已建立！', 'success');
+  } catch(e) { toast('失敗：'+e.message, 'error'); spinner(false); }
+}
+
 // ═══════════════════════════════════════════════════════════════
 //  TAB NAVIGATION
 // ═══════════════════════════════════════════════════════════════
@@ -998,11 +1014,16 @@ function renderHostPanel() {
   }).join('');
 
   const hostTokens = (liveUsers[HOST_NAME]||{}).tokens || 0;
+  const noRounds = !Object.keys(liveRounds).length;
   el.innerHTML = `
     <div class="host-balance">
       <span class="hb-label">💼 莊家資金</span>
       <span class="hb-val">🪙 ${hostTokens.toLocaleString()}</span>
     </div>
+    ${noRounds ? `<div class="host-section" style="text-align:center;padding:20px;">
+      <div class="host-section-title" style="justify-content:center;margin-bottom:14px;">⚠️ 賽程尚未初始化</div>
+      <button class="bet-btn" onclick="forceInitRounds()">🔄 立即建立賽程</button>
+    </div>` : ''}
     ${roundsHtml}
     <div class="host-section">
       <div class="host-section-title">🎁 補發代幣給玩家</div>

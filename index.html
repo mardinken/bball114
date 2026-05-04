@@ -194,6 +194,27 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
 input[type=number]{-moz-appearance:textfield;}
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
+
+/* RESCUE PACK */
+.rescue-banner{background:linear-gradient(135deg,#1a0a00,#2a1200);border:1px solid var(--orange);border-radius:14px;padding:16px;margin-bottom:12px;text-align:center;}
+.rescue-title{font-size:15px;font-weight:700;color:var(--orange);margin-bottom:6px;}
+.rescue-sub{font-size:12px;color:var(--t2);margin-bottom:12px;}
+.rescue-btn{padding:12px 24px;background:var(--orange);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;}
+.rescue-btn:active{opacity:.85;}
+.rescue-btn:disabled{background:var(--s3);cursor:not-allowed;}
+.rescue-dots{display:flex;justify-content:center;gap:6px;margin-top:10px;}
+.rescue-dot{width:12px;height:12px;border-radius:50%;background:var(--s3);}
+.rescue-dot.used{background:var(--orange);}
+
+/* HOST GIVE TOKENS */
+.give-row{display:grid;grid-template-columns:1fr 80px auto;gap:8px;align-items:end;}
+.hgr-odds{display:flex;gap:6px;align-items:center;margin-bottom:8px;}
+.hgr-odds label{font-size:11px;color:var(--t2);white-space:nowrap;}
+.hgr-odds input{width:64px;background:var(--s1);border:1px solid var(--s3);color:var(--text);border-radius:8px;padding:6px 8px;font-size:14px;font-family:inherit;text-align:center;}
+.host-balance{background:var(--s2);border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
+.hb-label{font-size:12px;color:var(--t2);}
+.hb-val{font-size:16px;font-weight:700;color:var(--yellow);}
+.odds-badge{display:inline-block;background:#0c1f2e;border:1px solid var(--blue);color:var(--blue);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:700;margin-top:4px;}
 </style>
 </head>
 <body>
@@ -339,49 +360,47 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
 // ═══════════════════════════════════════════════════════════════
 const ROUNDS_TEMPLATE = [
   {
-    id:'r1', label:'第一輪', date:'5/18（一）', status:'locked',
+    id:'r1', label:'第一輪', date:'5/18（一）～5/19（二）', status:'locked',
     games:[
-      {id:'g01', time:'7:40',  t1:'212', t2:'203', note:'214班輪空，直接進第三輪'},
-      {id:'g02', time:'9:20',  t1:'211', t2:'209', note:''},
-      {id:'g03', time:'13:25', t1:'213', t2:'216', note:''},
-      {id:'g04', time:'7:40',  t1:'218', t2:'待定', note:'對手待確認'},
-      {id:'g05', time:'7:40',  t1:'215', t2:'待定', note:'對手待確認'},
+      // ── 5/18（一）──
+      {id:'g01', time:'5/18  7:40',  t1:'212', t2:'203', note:'214班輪空直接晉級'},
+      {id:'g02', time:'5/18  7:40',  t1:'205', t2:'204', note:'218班輪空直接晉級'},
+      {id:'g03', time:'5/18  7:40',  t1:'215', t2:'217', note:'207班輪空直接晉級'},
+      {id:'g04', time:'5/18  9:20',  t1:'211', t2:'209', note:''},
+      {id:'g05', time:'5/18 13:25',  t1:'213', t2:'216', note:''},
+      // ── 5/19（二）──
+      {id:'g06', time:'5/19  7:40',  t1:'210', t2:'202', note:''},
+      {id:'g07', time:'5/19  7:40',  t1:'208', t2:'201', note:''},
+      {id:'g08', time:'5/19  7:40',  t1:'219', t2:'206', note:''},
     ]
   },
   {
-    id:'r2', label:'第二輪', date:'5/19（二）', status:'locked',
+    id:'r2', label:'第二輪', date:'5/20（三）', status:'locked',
     games:[
-      {id:'g06', time:'7:40', t1:'210', t2:'202', note:''},
-      {id:'g07', time:'7:40', t1:'205', t2:'204', note:''},
-      {id:'g08', time:'7:40', t1:'208', t2:'201', note:''},
-      {id:'g09', time:'7:40', t1:'待定', t2:'219', note:'敗部晉級賽'},
+      {id:'g09', time:'7:40', t1:'G1勝者', t2:'214',    note:'214班輪空直接進'},
+      {id:'g10', time:'7:40', t1:'G2勝者', t2:'218',    note:'218班輪空直接進'},
+      {id:'g11', time:'7:40', t1:'G3勝者', t2:'207',    note:'207班輪空直接進'},
+      {id:'g12', time:'7:40', t1:'G5勝者', t2:'G6勝者', note:''},
+      {id:'g13', time:'7:40', t1:'G4勝者', t2:'G7勝者', note:''},
+      {id:'g14', time:'7:40', t1:'G8勝者', t2:'待定',   note:'敗部補位'},
     ]
   },
   {
-    id:'r3', label:'準決賽前哨', date:'5/20（三）', status:'locked',
+    id:'r3', label:'準決賽', date:'5/21（四）', status:'locked',
     games:[
-      {id:'g10', time:'7:40', t1:'G1勝者', t2:'214', note:'214班輪空直接進'},
-      {id:'g11', time:'7:40', t1:'G3勝者', t2:'G6勝者', note:''},
-      {id:'g12', time:'7:40', t1:'G4勝者', t2:'G7勝者', note:''},
-      {id:'g13', time:'7:40', t1:'G5勝者', t2:'G2勝者', note:''},
-      {id:'g14', time:'7:40', t1:'G8勝者', t2:'G9勝者', note:'敗部'},
+      {id:'g15', time:'7:40',  t1:'G10勝者', t2:'G12勝者', note:''},
+      {id:'g16', time:'7:40',  t1:'G11勝者', t2:'G13勝者', note:''},
+      {id:'g17', time:'13:25', t1:'G16勝者', t2:'待定',    note:''},
+      {id:'g18', time:'14:20', t1:'G9勝者',  t2:'G15勝者', note:''},
+      {id:'g19', time:'15:15', t1:'待定',    t2:'待定',    note:'5-6名準決賽'},
     ]
   },
   {
-    id:'r4', label:'準決賽', date:'5/21（四）', status:'locked',
+    id:'r4', label:'決賽', date:'5/22（五）', status:'locked',
     games:[
-      {id:'g15', time:'7:40',  t1:'G12勝者', t2:'G13勝者', note:''},
-      {id:'g16', time:'13:25', t1:'G11勝者', t2:'待定', note:''},
-      {id:'g17', time:'14:20', t1:'G10勝者', t2:'G11勝者', note:''},
-      {id:'g18', time:'15:15', t1:'待定',    t2:'待定',    note:'5-6名準決賽'},
-    ]
-  },
-  {
-    id:'r5', label:'決賽', date:'5/22（五）', status:'locked',
-    games:[
-      {id:'g19', time:'7:40', t1:'待定', t2:'待定', note:'🏆 冠軍賽 1-2名'},
-      {id:'g20', time:'7:40', t1:'待定', t2:'待定', note:'3-4名決賽'},
-      {id:'g21', time:'7:40', t1:'待定', t2:'待定', note:'5-6名決賽'},
+      {id:'g20', time:'7:40', t1:'待定', t2:'待定', note:'🏆 冠軍賽 1-2名'},
+      {id:'g21', time:'7:40', t1:'待定', t2:'待定', note:'3-4名決賽'},
+      {id:'g22', time:'7:40', t1:'待定', t2:'待定', note:'5-6名決賽'},
     ]
   }
 ];
@@ -602,21 +621,27 @@ function showTab(idx) {
 // ═══════════════════════════════════════════════════════════════
 //  TAB 0: GAMES & BETTING
 // ═══════════════════════════════════════════════════════════════
-function calcOdds(gameId, team) {
-  const gameBets = (liveBets[gameId]) || {};
-  let totalPool = 0, teamPool = 0;
-  Object.values(gameBets).forEach(b => {
-    totalPool += b.amount;
-    if (b.team === team) teamPool += b.amount;
-  });
-  if (!teamPool) return null;
-  return { odds: totalPool / teamPool, teamPool, totalPool };
+// 固定賠率：從遊戲資料取得，預設 2.0x
+function getFixedOdds(game, team) {
+  if (team === game.t1) return game.t1Odds || 2.0;
+  if (team === game.t2) return game.t2Odds || 2.0;
+  return 2.0;
 }
 
 function oddsClass(odds) {
-  if (odds < 2.5) return 'hot';
-  if (odds < 5)   return 'mid';
+  if (odds < 1.5) return 'hot';
+  if (odds < 2.5) return 'mid';
   return 'cold';
+}
+
+// 計算某場下注人數與金額（顯示用）
+function getBetStats(gameId, team) {
+  const gameBets = liveBets[gameId] || {};
+  let count = 0, total = 0;
+  Object.values(gameBets).forEach(b => {
+    if (b.team === team) { count++; total += b.amount; }
+  });
+  return { count, total };
 }
 
 function getMyBet(gameId) {
@@ -644,24 +669,34 @@ function renderGames() {
       const t2Won = hasResult && game.winner === game.t2;
       const myBet = getMyBet(game.id);
 
-      // Odds calculation
-      const o1 = calcOdds(game.id, game.t1);
-      const o2 = calcOdds(game.id, game.t2);
-      const oddHtml = (isClosed && !isTbd1 && !isTbd2) ? `
+      // Fixed odds from game data
+      const o1 = getFixedOdds(game, game.t1);
+      const o2 = getFixedOdds(game, game.t2);
+      const s1 = getBetStats(game.id, game.t1);
+      const s2 = getBetStats(game.id, game.t2);
+      const oddHtml = (!isTbd1 && !isTbd2 && isClosed) ? `
         <div class="odds-row">
           <div class="odd-box">
             <div class="odd-team">${game.t1}班</div>
-            <div class="odd-val ${o1 ? oddsClass(o1.odds) : ''}">
-              ${o1 ? o1.odds.toFixed(2)+'x' : '--'}
-            </div>
-            <div class="odd-pool">${o1 ? o1.teamPool.toLocaleString() : 0} 代幣</div>
+            <div class="odd-val ${oddsClass(o1)}">${o1.toFixed(2)}x</div>
+            <div class="odd-pool">${s1.count}人 · ${s1.total.toLocaleString()} 枚</div>
           </div>
           <div class="odd-box">
             <div class="odd-team">${game.t2}班</div>
-            <div class="odd-val ${o2 ? oddsClass(o2.odds) : ''}">
-              ${o2 ? o2.odds.toFixed(2)+'x' : '--'}
-            </div>
-            <div class="odd-pool">${o2 ? o2.teamPool.toLocaleString() : 0} 代幣</div>
+            <div class="odd-val ${oddsClass(o2)}">${o2.toFixed(2)}x</div>
+            <div class="odd-pool">${s2.count}人 · ${s2.total.toLocaleString()} 枚</div>
+          </div>
+        </div>` : (!isTbd1 && !isTbd2 && round.status === 'open') ? `
+        <div class="odds-row">
+          <div class="odd-box">
+            <div class="odd-team">${game.t1}班 贏 賠</div>
+            <div class="odd-val ${oddsClass(o1)}">${o1.toFixed(2)}x</div>
+            <div class="odd-pool">${s1.count}人已注 · ${s1.total.toLocaleString()} 枚</div>
+          </div>
+          <div class="odd-box">
+            <div class="odd-team">${game.t2}班 贏 賠</div>
+            <div class="odd-val ${oddsClass(o2)}">${o2.toFixed(2)}x</div>
+            <div class="odd-pool">${s2.count}人已注 · ${s2.total.toLocaleString()} 枚</div>
           </div>
         </div>` : '';
 
@@ -762,22 +797,24 @@ async function placeBet(gameId) {
   if (amount < 1)   { toast('請輸入至少 1 枚代幣', 'error'); return; }
   if (amount > currentUser.tokens) { toast('代幣不足', 'error'); return; }
 
-  // Double-check no existing bet
   const existingBet = await db.ref('bets/' + gameId + '/' + currentUser.username).get();
   if (existingBet.exists()) { toast('你已對此場下注過了', 'error'); return; }
 
-  // Double-check round is open
   const game = findGame(gameId);
   if (!game || game.roundStatus !== 'open') { toast('此輪未開放下注', 'error'); return; }
+
+  // Lock in the odds at time of betting
+  const lockedOdds = getFixedOdds(game, team);
+  const potentialPayout = Math.floor(amount * lockedOdds);
 
   spinner(true);
   try {
     await db.ref('bets/' + gameId + '/' + currentUser.username).set({
-      team, amount, placedAt: Date.now(), payout: 0
+      team, amount, lockedOdds, potentialPayout, placedAt: Date.now(), payout: 0, settled: false
     });
     await db.ref('users/' + currentUser.username + '/tokens').transaction(t => (t || 0) - amount);
     spinner(false);
-    toast(`✅ 下注成功！${team}班 ${amount.toLocaleString()} 枚`, 'success');
+    toast(`✅ 下注 ${amount} 枚 → ${team}班，若贏可得 ${potentialPayout} 枚`, 'success');
   } catch(e) { toast('下注失敗：' + e.message, 'error'); spinner(false); }
 }
 
@@ -844,11 +881,27 @@ function renderProfile() {
   const wins   = myBets.filter(b => b.game && b.game.winner && b.team === b.game.winner).length;
   const losses = myBets.filter(b => b.game && b.game.winner && b.team !== b.game.winner).length;
 
+  const rescueUsed = me.rescueUsed || 0;
+  const canRescue  = tokens <= 200 && rescueUsed < MAX_RESCUE;
+  const rescueBanner = (tokens <= 200) ? `
+    <div class="rescue-banner">
+      <div class="rescue-title">🆘 代幣不足！</div>
+      <div class="rescue-sub">每位玩家可領取 ${MAX_RESCUE} 次補血包，每次 +${RESCUE_AMOUNT} 枚（由莊家支付）</div>
+      <button class="rescue-btn" onclick="claimRescue()" ${!canRescue ? 'disabled' : ''}>
+        ${canRescue ? `領取補血包 +${RESCUE_AMOUNT} 枚` : '補血包已用完'}
+      </button>
+      <div class="rescue-dots">
+        ${[0,1,2].map(i => `<div class="rescue-dot ${i < rescueUsed ? 'used' : ''}"></div>`).join('')}
+      </div>
+      <div style="font-size:11px;color:var(--t3);margin-top:6px;">已領 ${rescueUsed}/${MAX_RESCUE} 次</div>
+    </div>` : '';
+
   el.innerHTML = `
+    ${rescueBanner}
     <div class="profile-hero">
       <div class="profile-name">👤 ${currentUser.username}</div>
       <div class="profile-tokens">${tokens.toLocaleString()}</div>
-      <div class="profile-sub">虛擬代幣 · ${diff >= 0 ? '📈 +' : '📉 '}${diff.toLocaleString()} (vs 初始)</div>
+      <div class="profile-sub">虛擬代幣 · ${diff >= 0 ? '📈 +' : '📉 '}${diff.toLocaleString()} (vs 初始 1,000)</div>
     </div>
     <div class="stat-grid">
       <div class="stat-box"><div class="stat-val" style="color:var(--blue)">${myBets.length}</div><div class="stat-lbl">總下注場次</div></div>
@@ -862,7 +915,11 @@ function renderProfile() {
       const isWin  = hasResult && b.team === b.game.winner;
       const isLose = hasResult && b.team !== b.game.winner;
       const status = isWin ? 'win' : isLose ? 'lose' : 'pending';
-      const statusText = isWin ? `✅ 贏回 ${(b.payout||0).toLocaleString()}` : isLose ? '❌ 輸' : '⏳ 待結果';
+      const potential = b.potentialPayout || Math.floor(b.amount * (b.lockedOdds||2.0));
+      const statusText = isWin
+        ? `✅ 贏回 ${(b.payout||0).toLocaleString()} 枚`
+        : isLose ? `❌ 輸掉 ${b.amount.toLocaleString()} 枚`
+        : `⏳ 待結果（可得 ${potential.toLocaleString()} 枚）`;
       const t1 = b.game ? b.game.t1 : '?';
       const t2 = b.game ? b.game.t2 : '?';
       return `
@@ -871,7 +928,11 @@ function renderProfile() {
             <div class="bhi-game">${t1}班 vs ${t2}班</div>
             <div class="bhi-amount ${status}">${statusText}</div>
           </div>
-          <div class="bhi-meta">下注 ${b.amount.toLocaleString()} 枚 → ${b.team}班 · ${new Date(b.placedAt).toLocaleString('zh-TW',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
+          <div class="bhi-meta">
+            下注 ${b.amount.toLocaleString()} 枚 → ${b.team}班
+            <span class="odds-badge">${(b.lockedOdds||2.0).toFixed(2)}x</span>
+            · ${new Date(b.placedAt).toLocaleString('zh-TW',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}
+          </div>
         </div>`;
     }).join('')}`;
 }
@@ -892,6 +953,8 @@ function renderHostPanel() {
 
     const gamesHtml = games.map(g => {
       const hasResult = !!g.winner;
+      const o1 = g.t1Odds || 2.0;
+      const o2 = g.t2Odds || 2.0;
       return `
         <div class="host-game-row">
           <div class="hgr-meta">🕐 ${g.time} · ${g.id.toUpperCase()}${g.note ? ' · '+g.note : ''}</div>
@@ -899,6 +962,13 @@ function renderHostPanel() {
             <input class="hgr-inp" id="ht1-${g.id}" value="${g.t1}" placeholder="隊伍1">
             <input class="hgr-inp" id="ht2-${g.id}" value="${g.t2}" placeholder="隊伍2">
             <button class="hb" onclick="updateTeams('${g.id}','${round.id}')">更新</button>
+          </div>
+          <div class="hgr-odds">
+            <label>${g.t1}班賠率</label>
+            <input type="number" id="ho1-${g.id}" value="${o1}" min="1.1" max="99" step="0.1">
+            <label>${g.t2}班賠率</label>
+            <input type="number" id="ho2-${g.id}" value="${o2}" min="1.1" max="99" step="0.1">
+            <button class="hb" onclick="updateOdds('${g.id}','${round.id}')">設定賠率</button>
           </div>
           <div class="hgr-btns">
             ${!hasResult ? `
@@ -927,8 +997,29 @@ function renderHostPanel() {
       </div>`;
   }).join('');
 
+  const hostTokens = (liveUsers[HOST_NAME]||{}).tokens || 0;
   el.innerHTML = `
+    <div class="host-balance">
+      <span class="hb-label">💼 莊家資金</span>
+      <span class="hb-val">🪙 ${hostTokens.toLocaleString()}</span>
+    </div>
     ${roundsHtml}
+    <div class="host-section">
+      <div class="host-section-title">🎁 補發代幣給玩家</div>
+      <div class="give-row">
+        <div>
+          <div class="form-label" style="font-size:11px;color:var(--t2);margin-bottom:4px;">選擇玩家</div>
+          <select class="bet-team-sel" id="give-user">
+            ${Object.keys(liveUsers).filter(u=>!liveUsers[u].isHost).map(u=>`<option value="${u}">${u} (${(liveUsers[u].tokens||0).toLocaleString()})</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <div class="form-label" style="font-size:11px;color:var(--t2);margin-bottom:4px;">代幣數</div>
+          <input class="bet-amount-inp" type="number" id="give-amount" value="300" min="1">
+        </div>
+        <button class="bet-submit" style="margin-top:18px;" onclick="giveTokens()">補發</button>
+      </div>
+    </div>
     <div class="host-section">
       <div class="host-section-title">📢 發送公告</div>
       <div class="announce-row">
@@ -956,6 +1047,28 @@ async function updateTeams(gameId, roundId) {
   if (!t1 || !t2) return;
   await db.ref('rounds/'+roundId+'/games/'+gameId).update({ t1, t2 });
   toast('✅ 隊伍名稱已更新', 'success');
+}
+
+async function updateOdds(gameId, roundId) {
+  const o1 = parseFloat(document.getElementById('ho1-'+gameId)?.value) || 2.0;
+  const o2 = parseFloat(document.getElementById('ho2-'+gameId)?.value) || 2.0;
+  if (o1 < 1.01 || o2 < 1.01) { toast('賠率不能低於 1.01', 'error'); return; }
+  await db.ref('rounds/'+roundId+'/games/'+gameId).update({ t1Odds: o1, t2Odds: o2 });
+  toast(`✅ 賠率已設定：${o1.toFixed(2)}x / ${o2.toFixed(2)}x`, 'success');
+}
+
+async function giveTokens() {
+  const username = document.getElementById('give-user')?.value;
+  const amount   = parseInt(document.getElementById('give-amount')?.value) || 0;
+  if (!username || amount < 1) { toast('請選擇玩家並輸入數量', 'error'); return; }
+  spinner(true);
+  try {
+    await db.ref('users/'+username+'/tokens').transaction(t => (t||0) + amount);
+    await db.ref('users/'+HOST_NAME+'/tokens').transaction(t => (t||0) - amount);
+    spinner(false);
+    toast(`✅ 已補發 ${amount} 枚給 ${username}`, 'success');
+    await sendAnnouncementSilent(`🎁 ${username} 獲得莊家補發 ${amount} 枚代幣`);
+  } catch(e) { toast('失敗：'+e.message, 'error'); spinner(false); }
 }
 
 async function setWinner(gameId, roundId, side) {
@@ -991,21 +1104,32 @@ async function settleRound(roundId) {
   }
 }
 
+// ═══════════════════════════════════════════════════════════════
+//  固定賠率結算（莊家制）
+//  贏家：拿回 bet × lockedOdds（莊家付）
+//  輸家：下注金額歸莊家
+// ═══════════════════════════════════════════════════════════════
 async function payoutGame(gameId, winner) {
   const betsSnap = await db.ref('bets/'+gameId).get();
   if (!betsSnap.exists()) return;
   const bets = betsSnap.val();
-  let totalPool = 0, winPool = 0;
-  Object.values(bets).forEach(b => {
-    totalPool += b.amount;
-    if (b.team === winner) winPool += b.amount;
-  });
-  if (!winPool) return; // Nobody bet on winner
+
   for (const [username, bet] of Object.entries(bets)) {
-    if (bet.team !== winner) continue;
-    const payout = Math.floor((bet.amount / winPool) * totalPool);
-    await db.ref('users/'+username+'/tokens').transaction(t => (t||0) + payout);
-    await db.ref('bets/'+gameId+'/'+username+'/payout').set(payout);
+    if (bet.settled) continue;
+    const isWinner = bet.team === winner;
+
+    if (isWinner) {
+      // 玩家贏：拿回下注 × 賠率（莊家付）
+      const payout = bet.potentialPayout || Math.floor(bet.amount * (bet.lockedOdds || 2.0));
+      const profit = payout - bet.amount; // 莊家損失
+      await db.ref('users/'+username+'/tokens').transaction(t => (t||0) + payout);
+      await db.ref('users/'+HOST_NAME+'/tokens').transaction(t => (t||0) - profit);
+      await db.ref('bets/'+gameId+'/'+username).update({ payout, settled: true });
+    } else {
+      // 玩家輸：下注金額已在下注時扣除，現在歸莊家
+      await db.ref('users/'+HOST_NAME+'/tokens').transaction(t => (t||0) + bet.amount);
+      await db.ref('bets/'+gameId+'/'+username).update({ payout: 0, settled: true });
+    }
   }
 }
 
@@ -1015,6 +1139,32 @@ async function sendAnnouncement() {
   await db.ref('announcements').push({ text: msg, from: currentUser.username, at: Date.now() });
   document.getElementById('announce-msg').value = '';
   toast('📢 公告已發送', 'success');
+}
+
+async function sendAnnouncementSilent(msg) {
+  await db.ref('announcements').push({ text: msg, from: HOST_NAME, at: Date.now() });
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  補血包（玩家自助）
+// ═══════════════════════════════════════════════════════════════
+const MAX_RESCUE = 3;
+const RESCUE_AMOUNT = 300;
+
+async function claimRescue() {
+  const me = liveUsers[currentUser.username] || {};
+  const used = me.rescueUsed || 0;
+  if (used >= MAX_RESCUE) { toast('補血包已用完（上限3次）', 'error'); return; }
+  if ((me.tokens||0) > 200) { toast('代幣還有 200 以上，不能領補血包', 'error'); return; }
+  spinner(true);
+  try {
+    await db.ref('users/'+currentUser.username+'/tokens').transaction(t => (t||0) + RESCUE_AMOUNT);
+    await db.ref('users/'+currentUser.username+'/rescueUsed').transaction(t => (t||0) + 1);
+    await db.ref('users/'+HOST_NAME+'/tokens').transaction(t => (t||0) - RESCUE_AMOUNT);
+    spinner(false);
+    toast(`🆘 補血包 +${RESCUE_AMOUNT} 枚！剩餘 ${MAX_RESCUE - used - 1} 次`, 'success');
+    renderProfile();
+  } catch(e) { toast('失敗：'+e.message, 'error'); spinner(false); }
 }
 
 // ═══════════════════════════════════════════════════════════════

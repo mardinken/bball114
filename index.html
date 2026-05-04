@@ -637,20 +637,26 @@ function showTab(idx) {
 // ═══════════════════════════════════════════════════════════════
 //  TAB 0: GAMES & BETTING
 // ═══════════════════════════════════════════════════════════════
-// 固定賠率：從遊戲資料取得，預設 2.0x
-function getFixedOdds(game, team) {
-  if (team === game.t1) return game.t1Odds || 2.0;
-  if (team === game.t2) return game.t2Odds || 2.0;
-  return 2.0;
+// 彩池式賠率：自動根據下注金額計算
+function calcOdds(gameId, team) {
+  const gameBets = liveBets[gameId] || {};
+  let totalPool = 0, teamPool = 0;
+  Object.values(gameBets).forEach(b => {
+    totalPool += b.amount;
+    if (b.team === team) teamPool += b.amount;
+  });
+  if (!totalPool) return { odds: null, teamPool: 0, totalPool: 0 };
+  const odds = teamPool > 0 ? totalPool / teamPool : null;
+  return { odds, teamPool, totalPool };
 }
 
 function oddsClass(odds) {
+  if (!odds) return '';
   if (odds < 1.5) return 'hot';
   if (odds < 2.5) return 'mid';
   return 'cold';
 }
 
-// 計算某場下注人數與金額（顯示用）
 function getBetStats(gameId, team) {
   const gameBets = liveBets[gameId] || {};
   let count = 0, total = 0;
@@ -685,36 +691,24 @@ function renderGames() {
       const t2Won = hasResult && game.winner === game.t2;
       const myBet = getMyBet(game.id);
 
-      // Fixed odds from game data
-      const o1 = getFixedOdds(game, game.t1);
-      const o2 = getFixedOdds(game, game.t2);
-      const s1 = getBetStats(game.id, game.t1);
-      const s2 = getBetStats(game.id, game.t2);
-      const oddHtml = (!isTbd1 && !isTbd2 && isClosed) ? `
+      // 自動計算彩池賠率
+      const o1 = calcOdds(game.id, game.t1);
+      const o2 = calcOdds(game.id, game.t2);
+      const showOdds = !isTbd1 && !isTbd2 && (round.status === 'open' || round.status === 'closed');
+      const oddHtml = showOdds ? `
         <div class="odds-row">
           <div class="odd-box">
             <div class="odd-team">${game.t1}班</div>
-            <div class="odd-val ${oddsClass(o1)}">${o1.toFixed(2)}x</div>
-            <div class="odd-pool">${s1.count}人 · ${s1.total.toLocaleString()} 枚</div>
+            <div class="odd-val ${oddsClass(o1.odds)}">${o1.odds ? o1.odds.toFixed(2)+'x' : '待注'}</div>
+            <div class="odd-pool">${o1.teamPool.toLocaleString()} 枚 · ${getBetStats(game.id,game.t1).count}人</div>
           </div>
           <div class="odd-box">
             <div class="odd-team">${game.t2}班</div>
-            <div class="odd-val ${oddsClass(o2)}">${o2.toFixed(2)}x</div>
-            <div class="odd-pool">${s2.count}人 · ${s2.total.toLocaleString()} 枚</div>
+            <div class="odd-val ${oddsClass(o2.odds)}">${o2.odds ? o2.odds.toFixed(2)+'x' : '待注'}</div>
+            <div class="odd-pool">${o2.teamPool.toLocaleString()} 枚 · ${getBetStats(game.id,game.t2).count}人</div>
           </div>
-        </div>` : (!isTbd1 && !isTbd2 && round.status === 'open') ? `
-        <div class="odds-row">
-          <div class="odd-box">
-            <div class="odd-team">${game.t1}班 贏 賠</div>
-            <div class="odd-val ${oddsClass(o1)}">${o1.toFixed(2)}x</div>
-            <div class="odd-pool">${s1.count}人已注 · ${s1.total.toLocaleString()} 枚</div>
-          </div>
-          <div class="odd-box">
-            <div class="odd-team">${game.t2}班 贏 賠</div>
-            <div class="odd-val ${oddsClass(o2)}">${o2.toFixed(2)}x</div>
-            <div class="odd-pool">${s2.count}人已注 · ${s2.total.toLocaleString()} 枚</div>
-          </div>
-        </div>` : '';
+        </div>
+        <div style="text-align:center;font-size:11px;color:var(--t3);margin-top:-4px;margin-bottom:4px;">總彩池 ${o1.totalPool.toLocaleString()} 枚</div>` : '';
 
       // My bet result display
       let myBetHtml = '';
@@ -819,18 +813,23 @@ async function placeBet(gameId) {
   const game = findGame(gameId);
   if (!game || game.roundStatus !== 'open') { toast('此輪未開放下注', 'error'); return; }
 
-  // Lock in the odds at time of betting
-  const lockedOdds = getFixedOdds(game, team);
-  const potentialPayout = Math.floor(amount * lockedOdds);
+  // 預覽下注後賠率
+  const gameBets = liveBets[gameId] || {};
+  let totalPool = amount, teamPool = amount;
+  Object.values(gameBets).forEach(b => {
+    totalPool += b.amount;
+    if (b.team === team) teamPool += b.amount;
+  });
+  const previewOdds = totalPool / teamPool;
 
   spinner(true);
   try {
     await db.ref('bets/' + gameId + '/' + currentUser.username).set({
-      team, amount, lockedOdds, potentialPayout, placedAt: Date.now(), payout: 0, settled: false
+      team, amount, placedAt: Date.now(), payout: 0, settled: false
     });
     await db.ref('users/' + currentUser.username + '/tokens').transaction(t => (t || 0) - amount);
     spinner(false);
-    toast(`✅ 下注 ${amount} 枚 → ${team}班，若贏可得 ${potentialPayout} 枚`, 'success');
+    toast(`✅ 下注 ${amount} 枚 → ${team}班（當前賠率 ${previewOdds.toFixed(2)}x）`, 'success');
   } catch(e) { toast('下注失敗：' + e.message, 'error'); spinner(false); }
 }
 
@@ -969,8 +968,8 @@ function renderHostPanel() {
 
     const gamesHtml = games.map(g => {
       const hasResult = !!g.winner;
-      const o1 = g.t1Odds || 2.0;
-      const o2 = g.t2Odds || 2.0;
+      const o1 = calcOdds(g.id, g.t1);
+      const o2 = calcOdds(g.id, g.t2);
       return `
         <div class="host-game-row">
           <div class="hgr-meta">🕐 ${g.time} · ${g.id.toUpperCase()}${g.note ? ' · '+g.note : ''}</div>
@@ -979,12 +978,10 @@ function renderHostPanel() {
             <input class="hgr-inp" id="ht2-${g.id}" value="${g.t2}" placeholder="隊伍2">
             <button class="hb" onclick="updateTeams('${g.id}','${round.id}')">更新</button>
           </div>
-          <div class="hgr-odds">
-            <label>${g.t1}班賠率</label>
-            <input type="number" id="ho1-${g.id}" value="${o1}" min="1.1" max="99" step="0.1">
-            <label>${g.t2}班賠率</label>
-            <input type="number" id="ho2-${g.id}" value="${o2}" min="1.1" max="99" step="0.1">
-            <button class="hb" onclick="updateOdds('${g.id}','${round.id}')">設定賠率</button>
+          <div style="font-size:11px;color:var(--t2);margin-bottom:8px;">
+            彩池：${o1.totalPool.toLocaleString()} 枚 ｜
+            ${g.t1} ${o1.teamPool.toLocaleString()}枚(${o1.odds?o1.odds.toFixed(2)+'x':'待注'}) ／
+            ${g.t2} ${o2.teamPool.toLocaleString()}枚(${o2.odds?o2.odds.toFixed(2)+'x':'待注'})
           </div>
           <div class="hgr-btns">
             ${!hasResult ? `
@@ -1125,33 +1122,41 @@ async function settleRound(roundId) {
   }
 }
 
-// ═══════════════════════════════════════════════════════════════
-//  固定賠率結算（莊家制）
-//  贏家：拿回 bet × lockedOdds（莊家付）
-//  輸家：下注金額歸莊家
-// ═══════════════════════════════════════════════════════════════
+// 彩池式結算：贏家按比例分配總彩池，莊家追蹤淨盈虧
 async function payoutGame(gameId, winner) {
   const betsSnap = await db.ref('bets/'+gameId).get();
   if (!betsSnap.exists()) return;
   const bets = betsSnap.val();
 
+  let totalPool = 0, winPool = 0;
+  Object.values(bets).forEach(b => {
+    if (b.settled) return;
+    totalPool += b.amount;
+    if (b.team === winner) winPool += b.amount;
+  });
+  if (!winPool) {
+    // 沒人猜中，總彩池歸莊家
+    await db.ref('users/'+HOST_NAME+'/tokens').transaction(t => (t||0) + totalPool);
+    return;
+  }
+
+  let totalPaidOut = 0;
   for (const [username, bet] of Object.entries(bets)) {
     if (bet.settled) continue;
-    const isWinner = bet.team === winner;
-
-    if (isWinner) {
-      // 玩家贏：拿回下注 × 賠率（莊家付）
-      const payout = bet.potentialPayout || Math.floor(bet.amount * (bet.lockedOdds || 2.0));
-      const profit = payout - bet.amount; // 莊家損失
-      await db.ref('users/'+username+'/tokens').transaction(t => (t||0) + payout);
-      await db.ref('users/'+HOST_NAME+'/tokens').transaction(t => (t||0) - profit);
-      await db.ref('bets/'+gameId+'/'+username).update({ payout, settled: true });
-    } else {
-      // 玩家輸：下注金額已在下注時扣除，現在歸莊家
-      await db.ref('users/'+HOST_NAME+'/tokens').transaction(t => (t||0) + bet.amount);
+    if (bet.team !== winner) {
+      // 輸家：代幣歸入彩池（已在下注時扣除，不需再動）
       await db.ref('bets/'+gameId+'/'+username).update({ payout: 0, settled: true });
+      continue;
     }
+    // 贏家：按比例分配總彩池
+    const payout = Math.floor((bet.amount / winPool) * totalPool);
+    totalPaidOut += payout;
+    await db.ref('users/'+username+'/tokens').transaction(t => (t||0) + payout);
+    await db.ref('bets/'+gameId+'/'+username).update({ payout, settled: true });
   }
+  // 莊家淨收益 = 輸家總注 - 額外派彩（若有誤差）
+  const hostNet = totalPool - totalPaidOut;
+  if (hostNet !== 0) await db.ref('users/'+HOST_NAME+'/tokens').transaction(t => (t||0) + hostNet);
 }
 
 async function sendAnnouncement() {

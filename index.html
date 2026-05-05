@@ -15,22 +15,15 @@
   --text:#f1f5f9;--t2:#94a3b8;--t3:#64748b;
   --blue:#38bdf8;--blue2:#0ea5e9;
   --green:#22c55e;--red:#ef4444;--orange:#f97316;--yellow:#eab308;--purple:#a855f7;
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang TC','Noto Sans TC',sans-serif;}
-
-/* SCREENS */
 .screen{position:fixed;inset:0;display:flex;flex-direction:column;overflow:hidden;}
 .hidden{display:none!important;}
-
-/* SETUP SCREEN */
+/* SETUP */
 .setup-wrap{flex:1;overflow-y:auto;padding:24px 20px;display:flex;flex-direction:column;gap:16px;}
-.setup-header{text-align:center;padding:20px 0 10px;}
-.setup-icon{font-size:48px;margin-bottom:8px;}
-.setup-title{font-size:20px;font-weight:700;margin-bottom:6px;}
-.setup-sub{font-size:13px;color:var(--t2);}
 .setup-card{background:var(--s1);border-radius:14px;padding:16px;border:1px solid var(--s2);}
 .setup-card h3{font-size:14px;font-weight:700;margin-bottom:10px;color:var(--blue);}
 .setup-step{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;}
@@ -39,31 +32,20 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
 .step-text code{background:var(--s2);padding:1px 6px;border-radius:4px;font-family:monospace;color:var(--orange);font-size:12px;}
 .cfg-area{width:100%;min-height:120px;background:var(--s2);border:1px solid var(--s3);border-radius:10px;padding:12px;color:var(--text);font-size:12px;font-family:monospace;resize:vertical;line-height:1.6;}
 .btn-primary{width:100%;padding:14px;background:var(--blue2);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;}
-.btn-primary:active{opacity:.85;}
 .btn-secondary{width:100%;padding:12px;background:transparent;color:var(--t2);border:1px solid var(--s3);border-radius:12px;font-size:14px;cursor:pointer;margin-top:8px;}
 .warning-box{background:#1a0f00;border:1px solid var(--orange);border-radius:10px;padding:12px;font-size:12px;color:var(--orange);}
-
-/* LOGIN SCREEN */
+/* LOGIN */
 .login-wrap{flex:1;overflow-y:auto;display:flex;flex-direction:column;justify-content:center;padding:24px 20px;}
 .login-header{text-align:center;margin-bottom:28px;}
-.login-icon{font-size:52px;margin-bottom:10px;}
-.login-title{font-size:22px;font-weight:700;}
-.login-sub{font-size:13px;color:var(--t2);margin-top:6px;}
 .form-card{background:var(--s1);border-radius:16px;padding:20px;border:1px solid var(--s2);}
 .field{margin-bottom:14px;}
 .field label{font-size:12px;color:var(--t2);display:block;margin-bottom:6px;font-weight:500;}
 .field input{width:100%;background:var(--s2);border:1px solid var(--s3);color:var(--text);border-radius:10px;padding:12px 14px;font-size:16px;font-family:inherit;}
 .field input:focus{outline:none;border-color:var(--blue2);}
-.login-switch{text-align:center;font-size:13px;color:var(--t2);margin-top:14px;}
-.login-switch button{background:none;border:none;color:var(--blue);cursor:pointer;font-size:13px;font-weight:600;}
 .token-note{background:var(--s2);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--t2);text-align:center;margin-top:10px;}
 .token-note strong{color:var(--green);}
-
-/* APP SCREEN */
+/* APP */
 .app-header{background:var(--s1);padding:10px 16px 8px;border-bottom:1px solid var(--s2);flex-shrink:0;}
-.app-hdr-row{display:flex;align-items:center;justify-content:space-between;}
-.app-hdr-title{font-size:14px;font-weight:700;}
-.app-hdr-user{display:flex;align-items:center;gap:8px;}
 .user-badge{background:var(--s2);border-radius:99px;padding:4px 12px;font-size:12px;font-weight:600;}
 .token-display{background:var(--s2);border-radius:99px;padding:4px 12px;font-size:12px;color:var(--yellow);font-weight:700;}
 .logout-btn{background:none;border:none;color:var(--t3);font-size:18px;cursor:pointer;padding:4px;}
@@ -71,10 +53,13 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
 .tab{flex:1;padding:10px 4px;text-align:center;font-size:12px;font-weight:600;cursor:pointer;color:var(--t3);border:none;background:none;border-bottom:2px solid transparent;}
 .tab.active{color:var(--blue);border-bottom-color:var(--blue);}
 .tab-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 12px calc(12px + var(--safe-bottom));}
-
-/* ROUNDS / GAMES */
+/* ANNOUNCE */
+.announce-bar{background:#1a0a2e;border-bottom:1px solid var(--purple);padding:8px 16px;font-size:12px;color:var(--purple);display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.announce-dot{width:6px;height:6px;border-radius:50%;background:var(--purple);flex-shrink:0;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+/* GAMES */
 .round-block{margin-bottom:16px;}
-.round-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--s2);border-radius:10px;margin-bottom:8px;}
+.round-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--s2);border-radius:10px;margin-bottom:8px;flex-wrap:wrap;gap:4px;}
 .round-label{font-size:13px;font-weight:700;}
 .round-date{font-size:12px;color:var(--t2);}
 .round-status{font-size:11px;padding:3px 10px;border-radius:99px;font-weight:600;}
@@ -82,47 +67,38 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
 .st-open{background:#0f3020;color:var(--green);}
 .st-closed{background:#1a0f00;color:var(--orange);}
 .game-card{background:var(--s1);border-radius:12px;padding:14px;margin-bottom:8px;border:1px solid var(--s2);}
-.game-time{font-size:11px;color:var(--t3);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
-.game-note{font-size:10px;color:var(--t3);}
+.game-time{font-size:11px;color:var(--t3);margin-bottom:8px;}
 .teams-vs{display:grid;grid-template-columns:1fr 40px 1fr;align-items:center;gap:4px;margin-bottom:10px;}
-.team-cell{text-align:center;}
-.team-cell.left{text-align:left;}
-.team-cell.right{text-align:right;}
 .tname{font-size:19px;font-weight:700;}
 .tname.tbd{font-size:13px;color:var(--t3);font-weight:400;}
 .tname.won{color:var(--green);}
 .tname.lost{color:var(--t3);text-decoration:line-through;font-size:15px;}
 .vs-text{text-align:center;font-size:12px;color:var(--t3);font-weight:700;}
-.odds-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;}
+.odds-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;}
 .odd-box{background:var(--s2);border-radius:8px;padding:8px;text-align:center;}
 .odd-team{font-size:11px;color:var(--t2);margin-bottom:3px;}
 .odd-val{font-size:16px;font-weight:700;}
 .odd-val.hot{color:var(--red);}
 .odd-val.mid{color:var(--orange);}
 .odd-val.cold{color:var(--green);}
+.odd-val.none{color:var(--t3);font-size:13px;}
 .odd-pool{font-size:10px;color:var(--t3);margin-top:2px;}
+.pool-total{text-align:center;font-size:11px;color:var(--t3);margin-bottom:6px;}
 .bet-section{border-top:1px solid var(--s2);padding-top:10px;margin-top:4px;}
-.bet-section.disabled{opacity:.5;pointer-events:none;}
 .bet-row{display:flex;gap:8px;align-items:center;}
 .bet-team-sel{flex:1;background:var(--s2);border:1px solid var(--s3);color:var(--text);border-radius:8px;padding:9px 10px;font-size:14px;font-family:inherit;-webkit-appearance:none;}
 .bet-amount-inp{width:90px;background:var(--s2);border:1px solid var(--s3);color:var(--text);border-radius:8px;padding:9px 10px;font-size:14px;font-family:inherit;text-align:right;}
 .bet-submit{padding:9px 16px;background:var(--blue2);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;}
-.bet-submit:active{opacity:.85;}
-.bet-submit:disabled{background:var(--s3);cursor:not-allowed;}
-.quick-amounts{display:flex;gap:5px;margin-top:6px;}
+.quick-amounts{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap;}
 .qa{font-size:11px;padding:4px 10px;background:var(--s2);border:1px solid var(--s3);border-radius:99px;cursor:pointer;color:var(--t2);}
-.qa:active{background:var(--blue2);color:#fff;border-color:var(--blue2);}
+.qa:active{background:var(--blue2);color:#fff;}
+.bet-preview{font-size:12px;color:var(--yellow);margin-top:6px;text-align:center;min-height:18px;}
 .my-bet-tag{font-size:11px;color:var(--blue);background:#0c1f2e;border-radius:6px;padding:3px 8px;margin-top:6px;display:inline-block;}
-.result-tag{font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;display:inline-block;margin-top:6px;}
+.result-tag{font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;display:inline-block;margin-top:4px;}
 .res-win{background:#0f3020;color:var(--green);}
-.res-lose{background:#1a0f00;color:var(--red);}
 .no-bet-msg{font-size:12px;color:var(--t3);text-align:center;padding:6px 0;}
-.round-closed-msg{font-size:12px;color:var(--orange);text-align:center;padding:4px 0;}
-
 /* LEADERBOARD */
-.lb-header{background:var(--s1);border-radius:12px;padding:12px 16px;margin-bottom:12px;text-align:center;}
-.lb-title{font-size:14px;font-weight:700;margin-bottom:4px;}
-.lb-sub{font-size:12px;color:var(--t2);}
+.lb-header{background:var(--s1);border-radius:12px;padding:12px 16px;margin-bottom:12px;text-align:center;border:1px solid var(--s2);}
 .lb-item{display:flex;align-items:center;gap:12px;background:var(--s1);border-radius:10px;padding:12px 14px;margin-bottom:6px;border:1px solid var(--s2);}
 .lb-item.me{border-color:var(--blue2);background:#0c1a2e;}
 .lb-rank{font-size:18px;width:28px;text-align:center;flex-shrink:0;}
@@ -131,62 +107,50 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
 .lb-change{font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;margin-left:4px;}
 .lb-gain{background:#0f3020;color:var(--green);}
 .lb-loss{background:#1a0000;color:var(--red);}
-
 /* PROFILE */
 .profile-hero{background:var(--s1);border-radius:14px;padding:18px;margin-bottom:12px;text-align:center;border:1px solid var(--s2);}
-.profile-name{font-size:20px;font-weight:700;margin-bottom:4px;}
-.profile-tokens{font-size:32px;font-weight:700;color:var(--yellow);margin-bottom:4px;}
-.profile-sub{font-size:12px;color:var(--t2);}
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
 .stat-box{background:var(--s1);border-radius:12px;padding:12px;text-align:center;border:1px solid var(--s2);}
-.stat-val{font-size:20px;font-weight:700;margin-bottom:2px;}
-.stat-lbl{font-size:11px;color:var(--t2);}
-.bet-history-title{font-size:14px;font-weight:700;margin-bottom:8px;}
 .bet-hist-item{background:var(--s1);border-radius:10px;padding:10px 12px;margin-bottom:6px;border:1px solid var(--s2);}
 .bhi-row{display:flex;justify-content:space-between;align-items:center;}
 .bhi-game{font-size:13px;font-weight:600;}
-.bhi-amount{font-size:13px;font-weight:700;}
+.bhi-amount{font-size:12px;font-weight:700;}
 .bhi-amount.win{color:var(--green);}
 .bhi-amount.lose{color:var(--red);}
 .bhi-amount.pending{color:var(--yellow);}
 .bhi-meta{font-size:11px;color:var(--t3);margin-top:3px;}
-
-/* HOST PANEL */
+/* RESCUE */
+.rescue-banner{background:linear-gradient(135deg,#1a0a00,#2a1200);border:1px solid var(--orange);border-radius:14px;padding:16px;margin-bottom:12px;text-align:center;}
+.rescue-btn{padding:12px 24px;background:var(--orange);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;}
+.rescue-dots{display:flex;justify-content:center;gap:6px;margin-top:10px;}
+.rescue-dot{width:12px;height:12px;border-radius:50%;background:var(--s3);}
+.rescue-dot.used{background:var(--orange);}
+/* HOST */
 .host-section{background:var(--s1);border-radius:14px;padding:14px;margin-bottom:12px;border:1px solid var(--purple);}
 .host-section-title{font-size:13px;font-weight:700;color:var(--purple);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.host-balance{background:var(--s2);border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
 .host-game-row{background:var(--s2);border-radius:10px;padding:10px 12px;margin-bottom:8px;}
 .hgr-meta{font-size:12px;color:var(--t2);margin-bottom:8px;}
 .hgr-teams{display:flex;gap:6px;margin-bottom:8px;}
 .hgr-inp{flex:1;background:var(--s1);border:1px solid var(--s3);color:var(--text);border-radius:8px;padding:8px 10px;font-size:14px;font-family:inherit;}
+.hgr-pool{font-size:11px;color:var(--t2);margin-bottom:8px;}
 .hgr-btns{display:flex;gap:6px;flex-wrap:wrap;}
 .hb{padding:8px 14px;border-radius:8px;border:1px solid var(--s3);background:transparent;color:var(--text);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;}
-.hb:active{opacity:.8;}
 .hb-open{background:#0f3020;border-color:var(--green);color:var(--green);}
 .hb-close{background:#1a0f00;border-color:var(--orange);color:var(--orange);}
 .hb-win1{background:#0c2a45;border-color:var(--blue);color:var(--blue);}
 .hb-win2{background:#2a0f45;border-color:var(--purple);color:var(--purple);}
 .hb-reset{border-color:var(--red);color:var(--red);}
+.give-row{display:grid;grid-template-columns:1fr 80px auto;gap:8px;align-items:end;}
 .announce-row{display:flex;gap:8px;}
 .announce-inp{flex:1;background:var(--s2);border:1px solid var(--s3);color:var(--text);border-radius:10px;padding:10px 12px;font-size:14px;font-family:inherit;}
-.announce-btn{padding:10px 16px;background:var(--purple);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;}
-
-/* ANNOUNCEMENTS BANNER */
-.announce-bar{background:#1a0a2e;border-bottom:1px solid var(--purple);padding:8px 16px;font-size:12px;color:var(--purple);display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.announce-dot{width:6px;height:6px;border-radius:50%;background:var(--purple);flex-shrink:0;animation:pulse 1.5s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
-.announce-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-
-/* TOAST */
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(10px);padding:10px 20px;border-radius:99px;font-size:13px;font-weight:600;opacity:0;transition:all .25s;pointer-events:none;z-index:999;white-space:nowrap;}
-.toast.success{background:var(--green);color:#fff;}
-.toast.error{background:var(--red);color:#fff;}
-.toast.info{background:var(--blue2);color:#fff;}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-
-/* CONFIRM DIALOG */
-.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9998;padding:20px;}
+.announce-btn{padding:10px 16px;background:var(--purple);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;}
+select,input[type=number]{background:var(--s2);border:1px solid var(--s3);color:var(--text);border-radius:8px;padding:10px 12px;font-size:14px;width:100%;-webkit-appearance:none;font-family:inherit;}
+.form-label{font-size:11px;color:var(--t2);margin-bottom:4px;}
+/* CONFIRM */
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:9998;padding:20px;}
 .confirm-box{background:var(--s1);border:1px solid var(--s3);border-radius:16px;padding:24px 20px;width:100%;max-width:320px;text-align:center;}
-.confirm-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;white-space:pre-line;line-height:1.5;}
+.confirm-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;white-space:pre-line;line-height:1.6;}
 .confirm-btns{display:flex;gap:10px;margin-top:20px;}
 .confirm-ok{flex:1;padding:12px;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;}
 .confirm-cancel{flex:1;padding:12px;background:var(--s2);color:var(--text);border:1px solid var(--s3);border-radius:10px;font-size:15px;cursor:pointer;}
@@ -194,127 +158,51 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
 .spinner-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9999;}
 .spinner{width:40px;height:40px;border:3px solid var(--s2);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.spinner{width:40px;height:40px;border:3px solid var(--s2);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-/* MISC */
+/* TOAST */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(10px);padding:10px 20px;border-radius:99px;font-size:13px;font-weight:600;opacity:0;transition:all .25s;pointer-events:none;z-index:10000;white-space:nowrap;}
+.toast.success{background:var(--green);color:#fff;}
+.toast.error{background:var(--red);color:#fff;}
+.toast.info{background:var(--blue2);color:#fff;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .section-title{font-size:14px;font-weight:700;margin-bottom:10px;}
 .empty-state{text-align:center;color:var(--t3);font-size:13px;padding:30px 0;}
 input[type=number]{-moz-appearance:textfield;}
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
-
-/* RESCUE PACK */
-.rescue-banner{background:linear-gradient(135deg,#1a0a00,#2a1200);border:1px solid var(--orange);border-radius:14px;padding:16px;margin-bottom:12px;text-align:center;}
-.rescue-title{font-size:15px;font-weight:700;color:var(--orange);margin-bottom:6px;}
-.rescue-sub{font-size:12px;color:var(--t2);margin-bottom:12px;}
-.rescue-btn{padding:12px 24px;background:var(--orange);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;}
-.rescue-btn:active{opacity:.85;}
-.rescue-btn:disabled{background:var(--s3);cursor:not-allowed;}
-.rescue-dots{display:flex;justify-content:center;gap:6px;margin-top:10px;}
-.rescue-dot{width:12px;height:12px;border-radius:50%;background:var(--s3);}
-.rescue-dot.used{background:var(--orange);}
-
-/* HOST GIVE TOKENS */
-.give-row{display:grid;grid-template-columns:1fr 80px auto;gap:8px;align-items:end;}
-.hgr-odds{display:flex;gap:6px;align-items:center;margin-bottom:8px;}
-.hgr-odds label{font-size:11px;color:var(--t2);white-space:nowrap;}
-.hgr-odds input{width:64px;background:var(--s1);border:1px solid var(--s3);color:var(--text);border-radius:8px;padding:6px 8px;font-size:14px;font-family:inherit;text-align:center;}
-.host-balance{background:var(--s2);border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
-.hb-label{font-size:12px;color:var(--t2);}
-.hb-val{font-size:16px;font-weight:700;color:var(--yellow);}
-.odds-badge{display:inline-block;background:#0c1f2e;border:1px solid var(--blue);color:var(--blue);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:700;margin-top:4px;}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
 </style>
 </head>
 <body>
-
-<!-- ╔══════════════════════════════════╗ -->
-<!-- ║         SETUP SCREEN             ║ -->
-<!-- ╚══════════════════════════════════╝ -->
 <div id="screen-setup" class="screen hidden">
   <div class="setup-wrap">
-    <div class="setup-header">
-      <div class="setup-icon">🏀</div>
-      <div class="setup-title">初次設定</div>
-      <div class="setup-sub">需要連結 Firebase 資料庫才能多人同步</div>
-    </div>
-
+    <div style="text-align:center;padding:20px 0 10px;"><div style="font-size:48px;margin-bottom:8px;">🏀</div><div style="font-size:20px;font-weight:700;margin-bottom:6px;">初次設定</div><div style="font-size:13px;color:var(--t2);">需要連結 Firebase 資料庫才能多人同步</div></div>
     <div class="setup-card">
-      <h3>📋 步驟說明（約 5 分鐘）</h3>
-      <div class="setup-step">
-        <div class="step-num">1</div>
-        <div class="step-text">前往 <code>console.firebase.google.com</code>，用 Google 帳號登入，點「建立專案」，隨意命名（如 bball114），關閉 Google Analytics，建立完成。</div>
-      </div>
-      <div class="setup-step">
-        <div class="step-num">2</div>
-        <div class="step-text">左側選單點 <code>Realtime Database</code>，點「建立資料庫」，選地區（asia-southeast1），安全性規則選「測試模式」，完成。</div>
-      </div>
-      <div class="setup-step">
-        <div class="step-num">3</div>
-        <div class="step-text">左上角齒輪⚙️ → 「專案設定」→ 往下滑找「您的應用程式」→ 點 <code>&lt;/&gt;</code> 圖示（網頁 App）→ 填 App 名稱 → 複製 <code>firebaseConfig</code> 物件內容。</div>
-      </div>
-      <div class="setup-step">
-        <div class="step-num">4</div>
-        <div class="step-text">把複製的 JSON 內容貼到下方文字框，點「儲存並啟動」。</div>
-      </div>
+      <h3>📋 步驟說明</h3>
+      <div class="setup-step"><div class="step-num">1</div><div class="step-text">前往 <code>console.firebase.google.com</code> → 建立專案 → 左側選 <code>Realtime Database</code> → 建立（測試模式）</div></div>
+      <div class="setup-step"><div class="step-num">2</div><div class="step-text">齒輪⚙️ → 專案設定 → 點 <code>&lt;/&gt;</code> 圖示 → 複製 <code>firebaseConfig</code> 的 {} 內容</div></div>
+      <div class="setup-step"><div class="step-num">3</div><div class="step-text">貼到下方 → 點「儲存並啟動」</div></div>
     </div>
-
     <div class="setup-card">
       <h3>⚙️ 貼入 Firebase 設定</h3>
-      <div class="field">
-        <label>將 firebaseConfig 的 { } 內容貼在這裡</label>
-        <textarea class="cfg-area" id="cfg-input" placeholder='{
-  "apiKey": "AIzaSy...",
-  "authDomain": "your-app.firebaseapp.com",
-  "databaseURL": "https://your-app-default-rtdb.asia-southeast1.firebasedatabase.app",
-  "projectId": "your-app",
-  "storageBucket": "your-app.appspot.com",
-  "messagingSenderId": "123456789",
-  "appId": "1:123:web:abc123"
-}'></textarea>
-      </div>
+      <div class="field"><label>firebaseConfig 的 { } 內容</label><textarea class="cfg-area" id="cfg-input" placeholder='{ "apiKey": "...", "databaseURL": "..." }'></textarea></div>
       <button class="btn-primary" onclick="saveConfig()">💾 儲存並啟動</button>
     </div>
-
-    <div class="warning-box">
-      ⚠️ 此 App 僅供班際活動使用。Firebase 測試模式下任何人可讀寫，請勿存放真實個人資料。
-    </div>
+    <div class="warning-box">⚠️ 此 App 僅供班際活動使用，請勿存放真實個人資料。</div>
   </div>
 </div>
 
-<!-- ╔══════════════════════════════════╗ -->
-<!-- ║         LOGIN SCREEN             ║ -->
-<!-- ╚══════════════════════════════════╝ -->
 <div id="screen-login" class="screen hidden">
   <div class="login-wrap">
-    <div class="login-header">
-      <div class="login-icon">🏀</div>
-      <div class="login-title">沙鹿國中 114</div>
-      <div class="login-sub">班際籃球錦標賽・虛擬投注系統</div>
-    </div>
+    <div class="login-header"><div style="font-size:52px;margin-bottom:10px;">🏀</div><div style="font-size:22px;font-weight:700;">沙鹿國中 114</div><div style="font-size:13px;color:var(--t2);margin-top:6px;">班際籃球錦標賽・虛擬投注系統</div></div>
     <div class="form-card">
       <div id="login-form">
-        <div class="field">
-          <label>暱稱（自取，中英文皆可）</label>
-          <input type="text" id="login-name" placeholder="例：小明、Peter..." maxlength="10" autocomplete="off">
-        </div>
-        <div class="field">
-          <label>密碼（4-8 位數字）</label>
-          <input type="password" id="login-pin" placeholder="輸入密碼" maxlength="8" inputmode="numeric">
-        </div>
+        <div class="field"><label>暱稱</label><input type="text" id="login-name" placeholder="輸入你的暱稱" maxlength="10" autocomplete="off"></div>
+        <div class="field"><label>密碼（4-8 位數字）</label><input type="password" id="login-pin" placeholder="輸入密碼" maxlength="8" inputmode="numeric"></div>
         <button class="btn-primary" onclick="doLogin()">🔐 登入</button>
         <button class="btn-secondary" onclick="switchToRegister()">還沒有帳號？立即註冊</button>
       </div>
       <div id="register-form" class="hidden">
-        <div class="field">
-          <label>設定暱稱（2-10字，不可與他人重複）</label>
-          <input type="text" id="reg-name" placeholder="例：小明、Peter..." maxlength="10" autocomplete="off">
-        </div>
-        <div class="field">
-          <label>設定密碼（4-8 位數字）</label>
-          <input type="password" id="reg-pin" placeholder="設定密碼" maxlength="8" inputmode="numeric">
-        </div>
-        <div class="token-note">🎁 註冊後自動獲得 <strong>1,000 枚</strong>虛擬代幣，開始下注！</div>
+        <div class="field"><label>設定暱稱（2-10字）</label><input type="text" id="reg-name" placeholder="輸入暱稱" maxlength="10" autocomplete="off"></div>
+        <div class="field"><label>設定密碼（4-8 位數字）</label><input type="password" id="reg-pin" placeholder="設定密碼" maxlength="8" inputmode="numeric"></div>
+        <div class="token-note">🎁 註冊後自動獲得 <strong>1,000 枚</strong>虛擬代幣！</div>
         <button class="btn-primary" style="margin-top:12px;" onclick="doRegister()">✅ 建立帳號</button>
         <button class="btn-secondary" onclick="switchToLogin()">已有帳號？返回登入</button>
       </div>
@@ -322,35 +210,32 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
   </div>
 </div>
 
-<!-- ╔══════════════════════════════════╗ -->
-<!-- ║         MAIN APP SCREEN          ║ -->
-<!-- ╚══════════════════════════════════╝ -->
 <div id="screen-app" class="screen hidden">
   <div class="app-header">
-    <div class="app-hdr-row">
-      <div class="app-hdr-title">🏀 114 籃球賽</div>
-      <div class="app-hdr-user">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-size:14px;font-weight:700;">🏀 114 籃球賽</div>
+      <div style="display:flex;align-items:center;gap:8px;">
         <span class="user-badge" id="hdr-username">-</span>
         <span class="token-display" id="hdr-tokens">🪙 1,000</span>
-        <button class="logout-btn" onclick="doLogout()" title="登出">⏏</button>
+        <button class="logout-btn" onclick="doLogout()">⏏</button>
       </div>
     </div>
   </div>
   <div class="announce-bar hidden" id="announce-bar">
     <div class="announce-dot"></div>
-    <div class="announce-text" id="announce-text"></div>
+    <div style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" id="announce-text"></div>
   </div>
-  <div class="tabs" id="tabs">
-    <button class="tab active" onclick="showTab(0)">🗓 賽程投注</button>
-    <button class="tab" onclick="showTab(1)">🏆 排行榜</button>
+  <div class="tabs">
+    <button class="tab active" onclick="showTab(0)">🗓 賽程</button>
+    <button class="tab" onclick="showTab(1)">🏆 排行</button>
     <button class="tab" onclick="showTab(2)">👤 我的</button>
     <button class="tab hidden" id="tab-host-btn" onclick="showTab(3)">⚙️ 主持人</button>
   </div>
   <div class="tab-content">
-    <div id="tab-0" class="tab-pane"><div class="empty-state">載入中...</div></div>
-    <div id="tab-1" class="tab-pane hidden"><div class="empty-state">載入中...</div></div>
-    <div id="tab-2" class="tab-pane hidden"><div class="empty-state">載入中...</div></div>
-    <div id="tab-3" class="tab-pane hidden"></div>
+    <div id="tab-0"><div class="empty-state">載入中...</div></div>
+    <div id="tab-1" class="hidden"></div>
+    <div id="tab-2" class="hidden"></div>
+    <div id="tab-3" class="hidden"></div>
   </div>
 </div>
 
@@ -366,1008 +251,422 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
   </div>
 </div>
 
-<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
 <script>
 'use strict';
-
-// ═══════════════════════════════════════════════════════════════
-//  賽程資料（依照賽程表圖片）
-// ═══════════════════════════════════════════════════════════════
-const ROUNDS_TEMPLATE = [
-  {
-    id:'r1', label:'第一輪', date:'5/18（一）～5/19（二）', status:'locked',
-    games:[
-      // ── 5/18（一）──
-      {id:'g01', time:'5/18  7:40',  t1:'212', t2:'203', note:'214班輪空直接晉級'},
-      {id:'g02', time:'5/18  7:40',  t1:'205', t2:'204', note:'218班輪空直接晉級'},
-      {id:'g03', time:'5/18  7:40',  t1:'215', t2:'217', note:'207班輪空直接晉級'},
-      {id:'g04', time:'5/18  9:20',  t1:'211', t2:'209', note:''},
-      {id:'g05', time:'5/18 13:25',  t1:'213', t2:'216', note:''},
-      // ── 5/19（二）──
-      {id:'g06', time:'5/19  7:40',  t1:'210', t2:'202', note:''},
-      {id:'g07', time:'5/19  7:40',  t1:'208', t2:'201', note:''},
-      {id:'g08', time:'5/19  7:40',  t1:'219', t2:'206', note:''},
-    ]
-  },
-  {
-    id:'r2', label:'第二輪', date:'5/20（三）', status:'locked',
-    games:[
-      {id:'g09', time:'7:40', t1:'G1勝者', t2:'214',    note:'214班輪空直接進'},
-      {id:'g10', time:'7:40', t1:'G2勝者', t2:'218',    note:'218班輪空直接進'},
-      {id:'g11', time:'7:40', t1:'G3勝者', t2:'207',    note:'207班輪空直接進'},
-      {id:'g12', time:'7:40', t1:'G5勝者', t2:'G6勝者', note:''},
-      {id:'g13', time:'7:40', t1:'G4勝者', t2:'G7勝者', note:''},
-      {id:'g14', time:'7:40', t1:'G8勝者', t2:'待定',   note:'敗部補位'},
-    ]
-  },
-  {
-    id:'r3', label:'準決賽', date:'5/21（四）', status:'locked',
-    games:[
-      {id:'g15', time:'7:40',  t1:'G10勝者', t2:'G12勝者', note:''},
-      {id:'g16', time:'7:40',  t1:'G11勝者', t2:'G13勝者', note:''},
-      {id:'g17', time:'13:25', t1:'G16勝者', t2:'待定',    note:''},
-      {id:'g18', time:'14:20', t1:'G9勝者',  t2:'G15勝者', note:''},
-      {id:'g19', time:'15:15', t1:'待定',    t2:'待定',    note:'5-6名準決賽'},
-    ]
-  },
-  {
-    id:'r4', label:'決賽', date:'5/22（五）', status:'locked',
-    games:[
-      {id:'g20', time:'7:40', t1:'待定', t2:'待定', note:'🏆 冠軍賽 1-2名'},
-      {id:'g21', time:'7:40', t1:'待定', t2:'待定', note:'3-4名決賽'},
-      {id:'g22', time:'7:40', t1:'待定', t2:'待定', note:'5-6名決賽'},
-    ]
-  }
+const ROUNDS_TEMPLATE=[
+  {id:'r1',label:'第一輪',date:'5/18（一）～5/19（二）',status:'locked',games:[
+    {id:'g01',time:'5/18 7:40',t1:'212',t2:'203',note:'214班輪空直接晉級'},
+    {id:'g02',time:'5/18 7:40',t1:'205',t2:'204',note:'218班輪空直接晉級'},
+    {id:'g03',time:'5/18 7:40',t1:'215',t2:'217',note:'207班輪空直接晉級'},
+    {id:'g04',time:'5/18 9:20',t1:'211',t2:'209',note:''},
+    {id:'g05',time:'5/18 13:25',t1:'213',t2:'216',note:''},
+    {id:'g06',time:'5/19 7:40',t1:'210',t2:'202',note:''},
+    {id:'g07',time:'5/19 7:40',t1:'208',t2:'201',note:''},
+    {id:'g08',time:'5/19 7:40',t1:'219',t2:'206',note:''},
+  ]},
+  {id:'r2',label:'第二輪',date:'5/20（三）',status:'locked',games:[
+    {id:'g09',time:'7:40',t1:'G1勝者',t2:'214',note:'214班輪空直接進'},
+    {id:'g10',time:'7:40',t1:'G2勝者',t2:'218',note:'218班輪空直接進'},
+    {id:'g11',time:'7:40',t1:'G3勝者',t2:'207',note:'207班輪空直接進'},
+    {id:'g12',time:'7:40',t1:'G5勝者',t2:'G6勝者',note:''},
+    {id:'g13',time:'7:40',t1:'G4勝者',t2:'G7勝者',note:''},
+    {id:'g14',time:'7:40',t1:'G8勝者',t2:'待定',note:'敗部補位'},
+  ]},
+  {id:'r3',label:'準決賽',date:'5/21（四）',status:'locked',games:[
+    {id:'g15',time:'7:40',t1:'G10勝者',t2:'G12勝者',note:''},
+    {id:'g16',time:'7:40',t1:'G11勝者',t2:'G13勝者',note:''},
+    {id:'g17',time:'13:25',t1:'G16勝者',t2:'待定',note:''},
+    {id:'g18',time:'14:20',t1:'G9勝者',t2:'G15勝者',note:''},
+    {id:'g19',time:'15:15',t1:'待定',t2:'待定',note:'5-6名準決賽'},
+  ]},
+  {id:'r4',label:'決賽',date:'5/22（五）',status:'locked',games:[
+    {id:'g20',time:'7:40',t1:'待定',t2:'待定',note:'🏆 冠軍賽 1-2名'},
+    {id:'g21',time:'7:40',t1:'待定',t2:'待定',note:'3-4名決賽'},
+    {id:'g22',time:'7:40',t1:'待定',t2:'待定',note:'5-6名決賽'},
+  ]},
 ];
+const INITIAL_TOKENS=1000,HOST_NAME='host',MAX_RESCUE=3,RESCUE_AMOUNT=300;
+let db=null,currentUser=null,liveRounds={},liveBets={},liveUsers={},listeners=[],currentTab=0;
 
-const INITIAL_TOKENS = 1000;
-const HOST_NAME = 'host';
-
-// ═══════════════════════════════════════════════════════════════
-//  State
-// ═══════════════════════════════════════════════════════════════
-let db = null;
-let currentUser = null;
-let liveRounds = {};
-let liveBets   = {};
-let liveUsers  = {};
-let listeners  = [];
-let currentTab = 0;
-
-// ═══════════════════════════════════════════════════════════════
-//  Init / Config
-// ═══════════════════════════════════════════════════════════════
-function init() {
-  // 1. 嘗試從 URL hash 讀取設定（掃 QR Code 的新用戶）
-  if (location.hash && location.hash.startsWith('#cfg=')) {
-    try {
-      const encoded = location.hash.slice(5);
-      const cfg = JSON.parse(atob(encoded));
-      if (cfg.apiKey && cfg.databaseURL) {
-        localStorage.setItem('bball114_cfg', JSON.stringify(cfg));
-        history.replaceState(null, '', location.pathname); // 清除 hash
-      }
-    } catch(e) {}
+function init(){
+  if(location.hash&&location.hash.startsWith('#cfg=')){
+    try{const cfg=JSON.parse(atob(location.hash.slice(5)));if(cfg.apiKey&&cfg.databaseURL){localStorage.setItem('bball114_cfg',JSON.stringify(cfg));history.replaceState(null,'',location.pathname);}}catch(e){}
   }
-
-  const cfg = loadConfig();
-  if (!cfg) { showScreen('setup'); return; }
-  try {
-    firebase.initializeApp(cfg);
-    db = firebase.database();
-    const saved = localStorage.getItem('bball114_user');
-    if (saved) {
-      const u = JSON.parse(saved);
-      loginFromStorage(u.username, u.pin);
-    } else {
-      showScreen('login');
-    }
-  } catch(e) {
-    toast('Firebase 連線失敗，請重新設定', 'error');
-    showScreen('setup');
-  }
+  const cfg=loadConfig();
+  if(!cfg){showScreen('setup');return;}
+  try{
+    firebase.initializeApp(cfg);db=firebase.database();
+    const saved=localStorage.getItem('bball114_user');
+    if(saved){const u=JSON.parse(saved);loginFromStorage(u.username,u.pin);}
+    else showScreen('login');
+  }catch(e){toast('Firebase 連線失敗','error');showScreen('setup');}
 }
-
-function loadConfig() {
-  try {
-    const s = localStorage.getItem('bball114_cfg');
-    if (s) return JSON.parse(s);
-  } catch(e){}
-  return null;
+function loadConfig(){try{const s=localStorage.getItem('bball114_cfg');if(s)return JSON.parse(s);}catch(e){}return null;}
+function saveConfig(){
+  try{const cfg=JSON.parse(document.getElementById('cfg-input').value.trim());if(!cfg.apiKey||!cfg.databaseURL)throw 0;localStorage.setItem('bball114_cfg',JSON.stringify(cfg));location.reload();}
+  catch(e){toast('設定格式錯誤','error');}
 }
-
-function saveConfig() {
-  const raw = document.getElementById('cfg-input').value.trim();
-  try {
-    const cfg = JSON.parse(raw);
-    if (!cfg.apiKey || !cfg.databaseURL) throw new Error('缺少必要欄位');
-    localStorage.setItem('bball114_cfg', JSON.stringify(cfg));
-    location.reload();
-  } catch(e) {
-    toast('設定格式錯誤，請確認貼入完整的 {} 內容', 'error');
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════
-//  Auth
-// ═══════════════════════════════════════════════════════════════
-function switchToRegister() {
-  document.getElementById('login-form').classList.add('hidden');
-  document.getElementById('register-form').classList.remove('hidden');
-}
-function switchToLogin() {
-  document.getElementById('register-form').classList.add('hidden');
-  document.getElementById('login-form').classList.remove('hidden');
-}
-
-async function doRegister() {
-  const name = document.getElementById('reg-name').value.trim();
-  const pin  = document.getElementById('reg-pin').value.trim();
-  if (!name || name.length < 2) { toast('暱稱至少 2 個字', 'error'); return; }
-  if (!pin  || pin.length  < 4) { toast('密碼至少 4 位數字', 'error'); return; }
+function switchToRegister(){document.getElementById('login-form').classList.add('hidden');document.getElementById('register-form').classList.remove('hidden');}
+function switchToLogin(){document.getElementById('register-form').classList.add('hidden');document.getElementById('login-form').classList.remove('hidden');}
+async function doRegister(){
+  const name=document.getElementById('reg-name').value.trim(),pin=document.getElementById('reg-pin').value.trim();
+  if(!name||name.length<2){toast('暱稱至少 2 個字','error');return;}
+  if(!pin||pin.length<4){toast('密碼至少 4 位數字','error');return;}
   spinner(true);
-  try {
-    const snap = await db.ref('users/' + name).get();
-    if (snap.exists()) { toast('此暱稱已被使用，請換一個', 'error'); spinner(false); return; }
-    const isHost = (name === HOST_NAME);
-    const userData = { pin, tokens: isHost ? 999999 : INITIAL_TOKENS, isHost, joinedAt: Date.now(), totalWon:0, totalLost:0, betCount:0 };
-    await db.ref('users/' + name).set(userData);
-    // Seed rounds if host
-    if (isHost) await seedRounds();
-    localStorage.setItem('bball114_user', JSON.stringify({username: name, pin}));
-    currentUser = { username: name, ...userData };
-    spinner(false);
-    startApp();
-    toast('🎉 歡迎！已獲得 1,000 枚代幣', 'success');
-  } catch(e) { toast('建立帳號失敗：'+e.message, 'error'); spinner(false); }
+  try{
+    const snap=await db.ref('users/'+name).get();
+    if(snap.exists()){toast('此暱稱已被使用','error');spinner(false);return;}
+    const isHost=name===HOST_NAME;
+    await db.ref('users/'+name).set({pin,tokens:isHost?999999:INITIAL_TOKENS,isHost,joinedAt:Date.now(),rescueUsed:0});
+    if(isHost)await seedRounds();
+    localStorage.setItem('bball114_user',JSON.stringify({username:name,pin}));
+    currentUser={username:name,tokens:isHost?999999:INITIAL_TOKENS,isHost};
+    spinner(false);startApp();toast('🎉 歡迎！已獲得 1,000 枚代幣','success');
+  }catch(e){toast('失敗：'+e.message,'error');spinner(false);}
 }
-
-async function doLogin() {
-  const name = document.getElementById('login-name').value.trim();
-  const pin  = document.getElementById('login-pin').value.trim();
-  if (!name || !pin) { toast('請填入暱稱和密碼', 'error'); return; }
-  await loginFromStorage(name, pin);
+async function doLogin(){
+  const name=document.getElementById('login-name').value.trim(),pin=document.getElementById('login-pin').value.trim();
+  if(!name||!pin){toast('請填入暱稱和密碼','error');return;}
+  await loginFromStorage(name,pin);
 }
-
-async function loginFromStorage(name, pin) {
+async function loginFromStorage(name,pin){
   spinner(true);
-  try {
-    const snap = await db.ref('users/' + name).get();
-    if (!snap.exists()) { toast('找不到此帳號', 'error'); spinner(false); showScreen('login'); return; }
-    const data = snap.val();
-    if (data.pin !== pin) { toast('密碼錯誤', 'error'); spinner(false); showScreen('login'); return; }
-    currentUser = { username: name, ...data };
-    localStorage.setItem('bball114_user', JSON.stringify({username: name, pin}));
-    spinner(false);
-    startApp();
-  } catch(e) { toast('登入失敗：'+e.message, 'error'); spinner(false); showScreen('login'); }
+  try{
+    const snap=await db.ref('users/'+name).get();
+    if(!snap.exists()){toast('找不到此帳號','error');spinner(false);showScreen('login');return;}
+    const data=snap.val();
+    if(data.pin!==pin){toast('密碼錯誤','error');spinner(false);showScreen('login');return;}
+    currentUser={username:name,...data};
+    localStorage.setItem('bball114_user',JSON.stringify({username:name,pin}));
+    spinner(false);startApp();
+  }catch(e){toast('登入失敗','error');spinner(false);showScreen('login');}
 }
-
-function doLogout() {
-  removeListeners();
-  localStorage.removeItem('bball114_user');
-  currentUser = null;
-  liveRounds = {}; liveBets = {}; liveUsers = {};
-  showScreen('login');
-}
-
-// ═══════════════════════════════════════════════════════════════
-//  App Start
-// ═══════════════════════════════════════════════════════════════
-function startApp() {
+function doLogout(){removeListeners();localStorage.removeItem('bball114_user');currentUser=null;liveRounds={};liveBets={};liveUsers={};showScreen('login');}
+function startApp(){
   showScreen('app');
-  document.getElementById('hdr-username').textContent = currentUser.username;
-  if (currentUser.isHost) {
-    document.getElementById('tab-host-btn').classList.remove('hidden');
-  }
+  document.getElementById('hdr-username').textContent=currentUser.username;
+  if(currentUser.isHost)document.getElementById('tab-host-btn').classList.remove('hidden');
   attachListeners();
 }
-
-function attachListeners() {
+function attachListeners(){
   removeListeners();
-
-  // Users
-  const uRef = db.ref('users');
-  const uListener = uRef.on('value', snap => {
-    liveUsers = snap.val() || {};
-    updateTokenDisplay();
-    if (currentTab === 1) renderLeaderboard();
-    if (currentTab === 2) renderProfile();
+  [[db.ref('users'),s=>{liveUsers=s.val()||{};updateTokenDisplay();if(currentTab===1)renderLeaderboard();if(currentTab===2)renderProfile();}],
+   [db.ref('rounds'),s=>{liveRounds=s.val()||{};if(currentTab===0)renderGames();if(currentTab===3)renderHostPanel();}],
+   [db.ref('bets'),s=>{liveBets=s.val()||{};if(currentTab===0)renderGames();if(currentTab===2)renderProfile();}],
+  ].forEach(([r,fn])=>{const l=r.on('value',fn);listeners.push({ref:r,event:'value',fn:l});});
+  const aRef=db.ref('announcements');
+  const aL=aRef.limitToLast(1).on('value',s=>{
+    if(!s.val())return;const msgs=Object.values(s.val());const m=msgs[msgs.length-1];
+    if(m){document.getElementById('announce-bar').classList.remove('hidden');document.getElementById('announce-text').textContent='📢 '+m.from+'：'+m.text;}
   });
-  listeners.push({ ref: uRef, event: 'value', fn: uListener });
-
-  // Rounds
-  const rRef = db.ref('rounds');
-  const rListener = rRef.on('value', snap => {
-    liveRounds = snap.val() || {};
-    if (currentTab === 0) renderGames();
-    if (currentTab === 3) renderHostPanel();
-  });
-  listeners.push({ ref: rRef, event: 'value', fn: rListener });
-
-  // Bets
-  const bRef = db.ref('bets');
-  const bListener = bRef.on('value', snap => {
-    liveBets = snap.val() || {};
-    if (currentTab === 0) renderGames();
-    if (currentTab === 2) renderProfile();
-  });
-  listeners.push({ ref: bRef, event: 'value', fn: bListener });
-
-  // Announcements
-  const aRef = db.ref('announcements');
-  const aListener = aRef.limitToLast(5).on('value', snap => {
-    if (!snap.val()) return;
-    const msgs = Object.values(snap.val()).sort((a,b) => (b.at||0)-(a.at||0));
-    if (msgs[0]) showAnnouncement(msgs[0].text, msgs[0].from);
-  });
-  listeners.push({ ref: aRef, event: 'value', fn: aListener });
+  listeners.push({ref:aRef,event:'value',fn:aL});
 }
-
-function removeListeners() {
-  listeners.forEach(l => l.ref.off(l.event, l.fn));
-  listeners = [];
+function removeListeners(){listeners.forEach(l=>l.ref.off(l.event,l.fn));listeners=[];}
+function updateTokenDisplay(){
+  if(!currentUser||!liveUsers[currentUser.username])return;
+  currentUser.tokens=liveUsers[currentUser.username].tokens||0;
+  document.getElementById('hdr-tokens').textContent='🪙 '+currentUser.tokens.toLocaleString();
 }
-
-function updateTokenDisplay() {
-  if (!currentUser || !liveUsers[currentUser.username]) return;
-  const tokens = liveUsers[currentUser.username].tokens;
-  currentUser.tokens = tokens;
-  document.getElementById('hdr-tokens').textContent = '🪙 ' + tokens.toLocaleString();
+async function seedRounds(){const snap=await db.ref('rounds').get();if(snap.exists())return;await writeRounds();}
+async function forceInitRounds(){spinner(true);try{await db.ref('rounds').remove();await writeRounds();spinner(false);toast('✅ 賽程已建立！','success');}catch(e){toast('失敗：'+e.message,'error');spinner(false);}}
+async function writeRounds(){
+  const obj={};
+  ROUNDS_TEMPLATE.forEach(r=>{const games={};r.games.forEach(g=>{games[g.id]={...g,winner:null};});obj[r.id]={id:r.id,label:r.label,date:r.date,status:r.status,games};});
+  await db.ref('rounds').set(obj);
 }
-
-// ═══════════════════════════════════════════════════════════════
-//  Seed Rounds (host only, first time)
-// ═══════════════════════════════════════════════════════════════
-async function seedRounds() {
-  const snap = await db.ref('rounds').get();
-  if (snap.exists()) return; // Already seeded
-  const roundsObj = {};
-  ROUNDS_TEMPLATE.forEach(r => {
-    const games = {};
-    r.games.forEach(g => { games[g.id] = { ...g, winner: null }; });
-    roundsObj[r.id] = { id:r.id, label:r.label, date:r.date, status:r.status, games };
-  });
-  await db.ref('rounds').set(roundsObj);
+function showTab(idx){
+  currentTab=idx;
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  document.querySelectorAll('.tab-content > div').forEach((p,i)=>p.classList.toggle('hidden',i!==idx));
+  if(idx===0)renderGames();if(idx===1)renderLeaderboard();if(idx===2)renderProfile();if(idx===3)renderHostPanel();
 }
-
-async function forceInitRounds() {
-  spinner(true);
-  try {
-    await db.ref('rounds').remove();
-    const roundsObj = {};
-    ROUNDS_TEMPLATE.forEach(r => {
-      const games = {};
-      r.games.forEach(g => { games[g.id] = { ...g, winner: null }; });
-      roundsObj[r.id] = { id:r.id, label:r.label, date:r.date, status:r.status, games };
-    });
-    await db.ref('rounds').set(roundsObj);
-    spinner(false);
-    toast('✅ 賽程已建立！', 'success');
-  } catch(e) { toast('失敗：'+e.message, 'error'); spinner(false); }
+function calcOdds(gid,team){
+  const bets=liveBets[gid]||{};let total=0,tp=0;
+  Object.values(bets).forEach(b=>{total+=b.amount;if(b.team===team)tp+=b.amount;});
+  return{odds:tp>0?total/tp:null,teamPool:tp,total};
 }
-
-// ═══════════════════════════════════════════════════════════════
-//  TAB NAVIGATION
-// ═══════════════════════════════════════════════════════════════
-function showTab(idx) {
-  currentTab = idx;
-  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i === idx));
-  document.querySelectorAll('.tab-pane').forEach((p,i) => p.classList.toggle('hidden', i !== idx));
-  if (idx === 0) renderGames();
-  if (idx === 1) renderLeaderboard();
-  if (idx === 2) renderProfile();
-  if (idx === 3) renderHostPanel();
-}
-
-// ═══════════════════════════════════════════════════════════════
-//  TAB 0: GAMES & BETTING
-// ═══════════════════════════════════════════════════════════════
-// 彩池式賠率：自動根據下注金額計算
-function calcOdds(gameId, team) {
-  const gameBets = liveBets[gameId] || {};
-  let totalPool = 0, teamPool = 0;
-  Object.values(gameBets).forEach(b => {
-    totalPool += b.amount;
-    if (b.team === team) teamPool += b.amount;
-  });
-  if (!totalPool) return { odds: null, teamPool: 0, totalPool: 0 };
-  const odds = teamPool > 0 ? totalPool / teamPool : null;
-  return { odds, teamPool, totalPool };
-}
-
-function oddsClass(odds) {
-  if (!odds) return '';
-  if (odds < 1.5) return 'hot';
-  if (odds < 2.5) return 'mid';
-  return 'cold';
-}
-
-function getBetStats(gameId, team) {
-  const gameBets = liveBets[gameId] || {};
-  let count = 0, total = 0;
-  Object.values(gameBets).forEach(b => {
-    if (b.team === team) { count++; total += b.amount; }
-  });
-  return { count, total };
-}
-
-function getMyBet(gameId) {
-  const gameBets = liveBets[gameId] || {};
-  return gameBets[currentUser.username] || null;
-}
-
-function renderGames() {
-  const el = document.getElementById('tab-0');
-  const roundOrder = Object.values(liveRounds).sort((a,b) => a.id.localeCompare(b.id));
-  if (!roundOrder.length) { el.innerHTML = '<div class="empty-state">主持人尚未初始化賽程</div>'; return; }
-
-  el.innerHTML = roundOrder.map(round => {
-    const games = Object.values(round.games || {}).sort((a,b) => a.id.localeCompare(b.id));
-    const statusLabel = {locked:'🔒 未開放',open:'✅ 開放下注',closed:'⏹ 投注截止'}[round.status] || round.status;
-    const statusClass = {locked:'st-locked',open:'st-open',closed:'st-closed'}[round.status] || 'st-locked';
-    const isOpen = round.status === 'open';
-    const isClosed = round.status !== 'locked';
-
-    const gamesHtml = games.map(game => {
-      const isTbd1 = game.t1.includes('待定') || game.t1.includes('勝者') || game.t1.includes('敗者');
-      const isTbd2 = game.t2.includes('待定') || game.t2.includes('勝者') || game.t2.includes('敗者');
-      const hasResult = !!game.winner;
-      const t1Won = hasResult && game.winner === game.t1;
-      const t2Won = hasResult && game.winner === game.t2;
-      const myBet = getMyBet(game.id);
-
-      // 自動計算彩池賠率
-      const o1 = calcOdds(game.id, game.t1);
-      const o2 = calcOdds(game.id, game.t2);
-      const showOdds = !isTbd1 && !isTbd2 && (round.status === 'open' || round.status === 'closed');
-      const oddHtml = showOdds ? `
-        <div class="odds-row">
-          <div class="odd-box">
-            <div class="odd-team">${game.t1}班</div>
-            <div class="odd-val ${oddsClass(o1.odds)}">${o1.odds ? o1.odds.toFixed(2)+'x' : '待注'}</div>
-            <div class="odd-pool">${o1.teamPool.toLocaleString()} 枚 · ${getBetStats(game.id,game.t1).count}人</div>
-          </div>
-          <div class="odd-box">
-            <div class="odd-team">${game.t2}班</div>
-            <div class="odd-val ${oddsClass(o2.odds)}">${o2.odds ? o2.odds.toFixed(2)+'x' : '待注'}</div>
-            <div class="odd-pool">${o2.teamPool.toLocaleString()} 枚 · ${getBetStats(game.id,game.t2).count}人</div>
-          </div>
+function oddsClass(o){return!o?'none':o<1.8?'hot':o<2.8?'mid':'cold';}
+function isTbd(s){return!s||s.includes('勝者')||s.includes('待定');}
+function renderGames(){
+  const el=document.getElementById('tab-0');
+  const rounds=Object.values(liveRounds).sort((a,b)=>a.id.localeCompare(b.id));
+  if(!rounds.length){el.innerHTML='<div class="empty-state">主持人尚未初始化賽程</div>';return;}
+  el.innerHTML=rounds.map(round=>{
+    const games=Object.values(round.games||{}).sort((a,b)=>a.id.localeCompare(b.id));
+    const stLabel={locked:'🔒 未開放',open:'✅ 開放下注',closed:'⏹ 投注截止'}[round.status]||round.status;
+    const stClass={locked:'st-locked',open:'st-open',closed:'st-closed'}[round.status]||'st-locked';
+    const isOpen=round.status==='open',showOdds=round.status!=='locked';
+    return `<div class="round-block"><div class="round-hdr"><span class="round-label">${round.label}</span><span class="round-date">${round.date}</span><span class="round-status ${stClass}">${stLabel}</span></div>${games.map(g=>{
+      const t1Tbd=isTbd(g.t1),t2Tbd=isTbd(g.t2),hasResult=!!g.winner;
+      const t1Won=hasResult&&g.winner===g.t1,t2Won=hasResult&&g.winner===g.t2;
+      const myBet=(liveBets[g.id]||{})[currentUser.username];
+      const o1=calcOdds(g.id,g.t1),o2=calcOdds(g.id,g.t2);
+      const oddsHtml=showOdds&&!t1Tbd&&!t2Tbd?`<div class="odds-row">
+        <div class="odd-box"><div class="odd-team">${g.t1}班</div><div class="odd-val ${oddsClass(o1.odds)}">${o1.odds?o1.odds.toFixed(2)+'x':'待注'}</div><div class="odd-pool">${o1.teamPool.toLocaleString()} 枚</div></div>
+        <div class="odd-box"><div class="odd-team">${g.t2}班</div><div class="odd-val ${oddsClass(o2.odds)}">${o2.odds?o2.odds.toFixed(2)+'x':'待注'}</div><div class="odd-pool">${o2.teamPool.toLocaleString()} 枚</div></div>
+      </div><div class="pool-total">總彩池 ${o1.total.toLocaleString()} 枚</div>`:'';
+      const myBetHtml=myBet?`<div class="my-bet-tag">📌 ${myBet.amount.toLocaleString()}枚→${myBet.team}班${hasResult&&myBet.team===g.winner?' ✅ 贏回 '+(myBet.payout||0).toLocaleString()+'枚':''}${hasResult&&myBet.team!==g.winner?' ❌ 輸':''}</div>`:'';
+      let betHtml='';
+      if(isOpen&&!hasResult&&!t1Tbd&&!t2Tbd){
+        if(myBet){betHtml=`<div class="no-bet-msg">✅ 已下注 ${myBet.amount.toLocaleString()} 枚 → ${myBet.team}班</div>`;}
+        else{betHtml=`<div class="bet-section"><div class="bet-row">
+          <select class="bet-team-sel" id="sel-${g.id}" onchange="updatePreview('${g.id}')"><option value="${g.t1}">${g.t1}班</option><option value="${g.t2}">${g.t2}班</option></select>
+          <input class="bet-amount-inp" type="number" id="amt-${g.id}" value="${Math.min(100,currentUser.tokens)}" min="1" max="${currentUser.tokens}" oninput="updatePreview('${g.id}')">
+          <button class="bet-submit" onclick="placeBet('${g.id}')">下注</button></div>
+          <div class="quick-amounts"><div class="qa" onclick="setAmt('${g.id}',50)">50</div><div class="qa" onclick="setAmt('${g.id}',100)">100</div><div class="qa" onclick="setAmt('${g.id}',300)">300</div><div class="qa" onclick="setAmt('${g.id}',500)">500</div><div class="qa" onclick="setAmt('${g.id}',${currentUser.tokens})">全壓</div></div>
+          <div class="bet-preview" id="prev-${g.id}"></div></div>`;}
+      }else if(round.status==='locked'){betHtml='<div class="no-bet-msg">🔒 此輪尚未開放下注</div>';}
+      return `<div class="game-card">
+        <div class="game-time">🕐 ${g.time}${g.note?' · '+g.note:''}</div>
+        <div class="teams-vs">
+          <div><span class="tname ${t1Tbd?'tbd':t1Won?'won':t2Won?'lost':''}">${t1Tbd?g.t1:g.t1+'班'}</span></div>
+          <div class="vs-text">VS</div>
+          <div style="text-align:right"><span class="tname ${t2Tbd?'tbd':t2Won?'won':t1Won?'lost':''}">${t2Tbd?g.t2:g.t2+'班'}</span></div>
         </div>
-        <div style="text-align:center;font-size:11px;color:var(--t3);margin-top:-4px;margin-bottom:4px;">總彩池 ${o1.totalPool.toLocaleString()} 枚</div>` : '';
-
-      // My bet result display
-      let myBetHtml = '';
-      if (myBet) {
-        const isWinner = hasResult && myBet.team === game.winner;
-        const isLoser  = hasResult && myBet.team !== game.winner;
-        const payout   = isWinner ? (myBet.payout || 0) : 0;
-        myBetHtml = `
-          <div class="my-bet-tag">
-            📌 下注 ${myBet.amount.toLocaleString()} 枚 → ${myBet.team}班
-            ${isWinner ? '<span style="color:var(--green)"> ✅ 贏 +'+payout.toLocaleString()+'</span>' : ''}
-            ${isLoser  ? '<span style="color:var(--red)"> ❌ 輸</span>' : ''}
-          </div>`;
-      }
-
-      // Bet input (only when round is open and no existing bet)
-      let betInputHtml = '';
-      if (isOpen && !hasResult && !isTbd1 && !isTbd2) {
-        if (myBet) {
-          betInputHtml = `<div class="no-bet-msg">✅ 已下注 ${myBet.amount.toLocaleString()} 枚 → ${myBet.team}班（每場限下注一次）</div>`;
-        } else {
-          betInputHtml = `
-            <div class="bet-section">
-              <div class="bet-row">
-                <select class="bet-team-sel" id="sel-${game.id}" onchange="updateBetPreview('${game.id}')">
-                  <option value="${game.t1}">${game.t1}班</option>
-                  <option value="${game.t2}">${game.t2}班</option>
-                </select>
-                <input class="bet-amount-inp" type="number" id="amt-${game.id}" value="${Math.min(100,currentUser.tokens)}" min="1" max="${currentUser.tokens}" oninput="updateBetPreview('${game.id}')">
-                <button class="bet-submit" onclick="placeBet('${game.id}')">下注</button>
-              </div>
-              <div class="quick-amounts">
-                <div class="qa" onclick="setAmt('${game.id}',50)">50</div>
-                <div class="qa" onclick="setAmt('${game.id}',100)">100</div>
-                <div class="qa" onclick="setAmt('${game.id}',200)">200</div>
-                <div class="qa" onclick="setAmt('${game.id}',500)">500</div>
-                <div class="qa" onclick="setAmt('${game.id}',${currentUser.tokens})">全壓 ${currentUser.tokens}</div>
-              </div>
-              <div id="preview-${game.id}" style="font-size:12px;color:var(--yellow);margin-top:6px;text-align:center;"></div>
-            </div>`;
-        }
-      } else if (round.status === 'locked') {
-        betInputHtml = `<div class="no-bet-msg">🔒 此輪尚未開放下注</div>`;
-      } else if (round.status === 'closed' && !myBet && !hasResult) {
-        betInputHtml = `<div class="round-closed-msg">⏹ 投注已截止</div>`;
-      }
-
-      return `
-        <div class="game-card">
-          <div class="game-time">
-            🕐 ${game.time}
-            ${game.note ? `<span class="game-note"> · ${game.note}</span>` : ''}
-          </div>
-          <div class="teams-vs">
-            <div class="team-cell left">
-              <span class="tname ${isTbd1?'tbd':t1Won?'won':t2Won?'lost':''}">
-                ${isTbd1 ? game.t1 : game.t1+'班'}
-              </span>
-            </div>
-            <div class="vs-text">${hasResult ? '結果' : 'VS'}</div>
-            <div class="team-cell right">
-              <span class="tname ${isTbd2?'tbd':t2Won?'won':t1Won?'lost':''}">
-                ${isTbd2 ? game.t2 : game.t2+'班'}
-              </span>
-            </div>
-          </div>
-          ${hasResult ? `<div style="text-align:center;"><span class="result-tag res-win">🏆 ${game.winner}班 晉級</span></div>` : ''}
-          ${oddHtml}
-          ${myBetHtml}
-          ${betInputHtml}
-        </div>`;
-    }).join('');
-
-    return `
-      <div class="round-block">
-        <div class="round-hdr">
-          <span class="round-label">${round.label}</span>
-          <span class="round-date">${round.date}</span>
-          <span class="round-status ${statusClass}">${statusLabel}</span>
-        </div>
-        ${gamesHtml}
-      </div>`;
+        ${hasResult?`<div style="text-align:center"><span class="result-tag res-win">🏆 ${g.winner}班 晉級</span></div>`:''}
+        ${oddsHtml}${myBetHtml}${betHtml}</div>`;
+    }).join('')}</div>`;
   }).join('');
 }
-
-function setAmt(gameId, val) {
-  const inp = document.getElementById('amt-' + gameId);
-  if (inp) { inp.value = Math.min(currentUser.tokens, Math.max(1, parseInt(val) || 100)); updateBetPreview(gameId); }
+function setAmt(gid,v){const i=document.getElementById('amt-'+gid);if(i){i.value=Math.min(currentUser.tokens,Math.max(1,parseInt(v)||1));updatePreview(gid);}}
+function updatePreview(gid){
+  const sel=document.getElementById('sel-'+gid),amtEl=document.getElementById('amt-'+gid),el=document.getElementById('prev-'+gid);
+  if(!el)return;if(!sel||!amtEl){el.textContent='';return;}
+  const team=sel.value,amt=parseInt(amtEl.value)||0;
+  if(amt<=0){el.textContent='';return;}
+  const bets=liveBets[gid]||{};let total=amt,tp=amt;
+  Object.values(bets).forEach(b=>{total+=b.amount;if(b.team===team)tp+=b.amount;});
+  const est=Math.floor((amt/tp)*total);
+  el.textContent=`🏆 若${team}班贏：可得 ${est.toLocaleString()} 枚（+${(est-amt).toLocaleString()}）`;
 }
-
-function updateBetPreview(gameId) {
-  const selEl = document.getElementById('sel-' + gameId);
-  const amtEl = document.getElementById('amt-' + gameId);
-  const prevEl = document.getElementById('preview-' + gameId);
-  if (!selEl || !amtEl || !prevEl) return;
-  const team = selEl.value;
-  const amount = parseInt(amtEl.value) || 0;
-  if (amount <= 0) { prevEl.textContent = ''; return; }
-  // 預估下注後賠率
-  const gameBets = liveBets[gameId] || {};
-  let totalPool = amount, teamPool = amount;
-  Object.values(gameBets).forEach(b => {
-    totalPool += b.amount;
-    if (b.team === team) teamPool += b.amount;
-  });
-  const estOdds = totalPool / teamPool;
-  const estReturn = Math.floor(amount * estOdds);
-  const estProfit = estReturn - amount;
-  prevEl.textContent = `🏆 若 ${team}班贏：可得 ${estReturn.toLocaleString()} 枚（獲利 +${estProfit.toLocaleString()}）`;
-}
-
-async function placeBet(gameId) {
-  const selEl = document.getElementById('sel-' + gameId);
-  const amtEl = document.getElementById('amt-' + gameId);
-  if (!selEl || !amtEl) return;
-  const team   = selEl.value;
-  const amount = parseInt(amtEl.value) || 0;
-  if (amount < 1)   { toast('請輸入至少 1 枚代幣', 'error'); return; }
-  if (amount > currentUser.tokens) { toast('代幣不足', 'error'); return; }
-
-  const existingBet = await db.ref('bets/' + gameId + '/' + currentUser.username).get();
-  if (existingBet.exists()) { toast('你已對此場下注過了', 'error'); return; }
-
-  const game = findGame(gameId);
-  if (!game || game.roundStatus !== 'open') { toast('此輪未開放下注', 'error'); return; }
-
-  // 預覽下注後賠率
-  const gameBets = liveBets[gameId] || {};
-  let totalPool = amount, teamPool = amount;
-  Object.values(gameBets).forEach(b => {
-    totalPool += b.amount;
-    if (b.team === team) teamPool += b.amount;
-  });
-  const previewOdds = totalPool / teamPool;
-
+async function placeBet(gid){
+  const sel=document.getElementById('sel-'+gid),amtEl=document.getElementById('amt-'+gid);
+  if(!sel||!amtEl)return;
+  const team=sel.value,amount=parseInt(amtEl.value)||0;
+  if(amount<1){toast('至少下注 1 枚','error');return;}
+  if(amount>currentUser.tokens){toast('代幣不足','error');return;}
+  const ex=await db.ref('bets/'+gid+'/'+currentUser.username).get();
+  if(ex.exists()){toast('已對此場下注','error');return;}
+  const game=findGame(gid);if(!game||game.roundStatus!=='open'){toast('此輪未開放下注','error');return;}
   spinner(true);
-  try {
-    await db.ref('bets/' + gameId + '/' + currentUser.username).set({
-      team, amount, placedAt: Date.now(), payout: 0, settled: false
-    });
-    await db.ref('users/' + currentUser.username + '/tokens').transaction(t => (t || 0) - amount);
-    spinner(false);
-    toast(`✅ 下注 ${amount} 枚 → ${team}班（當前賠率 ${previewOdds.toFixed(2)}x）`, 'success');
-  } catch(e) { toast('下注失敗：' + e.message, 'error'); spinner(false); }
+  try{
+    await db.ref('bets/'+gid+'/'+currentUser.username).set({team,amount,placedAt:Date.now(),payout:0,settled:false});
+    await db.ref('users/'+currentUser.username+'/tokens').transaction(t=>(t||0)-amount);
+    spinner(false);toast(`✅ 下注 ${amount} 枚 → ${team}班`,'success');
+  }catch(e){toast('下注失敗','error');spinner(false);}
 }
-
-function findGame(gameId) {
-  for (const round of Object.values(liveRounds)) {
-    const games = round.games || {};
-    if (games[gameId]) return { ...games[gameId], roundStatus: round.status, roundId: round.id };
-  }
-  return null;
+function findGame(gid){for(const round of Object.values(liveRounds)){const g=(round.games||{})[gid];if(g)return{...g,roundStatus:round.status,roundId:round.id};}return null;}
+function renderLeaderboard(){
+  const el=document.getElementById('tab-1');
+  const users=Object.entries(liveUsers).filter(([n,u])=>!u.isHost).sort(([,a],[,b])=>(b.tokens||0)-(a.tokens||0));
+  if(!users.length){el.innerHTML='<div class="empty-state">尚無玩家</div>';return;}
+  const medals=['🥇','🥈','🥉'];
+  el.innerHTML=`<div class="lb-header"><div style="font-size:14px;font-weight:700;margin-bottom:4px;">🏆 虛擬代幣排行榜</div><div style="font-size:12px;color:var(--t2)">初始 1,000 枚 · 即時更新</div></div>`
+    +users.map(([name,u],i)=>{const diff=(u.tokens||0)-INITIAL_TOKENS,isMe=name===currentUser.username;
+      return `<div class="lb-item ${isMe?'me':''}"><div class="lb-rank">${medals[i]||(i+1)}</div><div class="lb-name">${name}${isMe?' 👈':''}</div><span class="lb-tokens">🪙 ${(u.tokens||0).toLocaleString()}</span><span class="lb-change ${diff>=0?'lb-gain':'lb-loss'}">${diff>=0?'+':''}${diff.toLocaleString()}</span></div>`;
+    }).join('');
 }
-
-// ═══════════════════════════════════════════════════════════════
-//  TAB 1: LEADERBOARD
-// ═══════════════════════════════════════════════════════════════
-function renderLeaderboard() {
-  const el = document.getElementById('tab-1');
-  const users = Object.entries(liveUsers)
-    .filter(([name, u]) => !u.isHost)
-    .sort(([,a],[,b]) => (b.tokens||0) - (a.tokens||0));
-
-  if (!users.length) { el.innerHTML = '<div class="empty-state">尚無玩家</div>'; return; }
-
-  const medals = ['🥇','🥈','🥉'];
-  el.innerHTML = `
-    <div class="lb-header">
-      <div class="lb-title">🏆 虛擬代幣排行榜</div>
-      <div class="lb-sub">初始 1,000 枚 · 即時更新</div>
-    </div>
-    ${users.map(([name, u], i) => {
-      const isMe = name === currentUser.username;
-      const diff = (u.tokens || 0) - INITIAL_TOKENS;
-      return `
-        <div class="lb-item ${isMe ? 'me' : ''}">
-          <div class="lb-rank">${medals[i] || (i+1)}</div>
-          <div class="lb-name">${name}${isMe ? ' （你）' : ''}</div>
-          <div>
-            <span class="lb-tokens">🪙 ${(u.tokens||0).toLocaleString()}</span>
-            <span class="lb-change ${diff >= 0 ? 'lb-gain' : 'lb-loss'}">${diff >= 0 ? '+' : ''}${diff.toLocaleString()}</span>
-          </div>
-        </div>`;
-    }).join('')}`;
+function renderProfile(){
+  const el=document.getElementById('tab-2');
+  const me=liveUsers[currentUser.username]||currentUser;
+  const tokens=me.tokens||0,diff=tokens-INITIAL_TOKENS,rescueUsed=me.rescueUsed||0,canRescue=tokens<=200&&rescueUsed<MAX_RESCUE;
+  const myBets=[];
+  Object.entries(liveBets).forEach(([gid,gb])=>{if(gb[currentUser.username])myBets.push({...gb[currentUser.username],gid,game:findGame(gid)});});
+  myBets.sort((a,b)=>(b.placedAt||0)-(a.placedAt||0));
+  const wins=myBets.filter(b=>b.game&&b.game.winner&&b.team===b.game.winner).length;
+  const losses=myBets.filter(b=>b.game&&b.game.winner&&b.team!==b.game.winner).length;
+  el.innerHTML=(tokens<=200?`<div class="rescue-banner">
+    <div style="font-size:15px;font-weight:700;color:var(--orange);margin-bottom:6px;">🆘 代幣不足！</div>
+    <div style="font-size:12px;color:var(--t2);margin-bottom:12px;">每人可領 ${MAX_RESCUE} 次補血包，每次 +${RESCUE_AMOUNT} 枚</div>
+    <button class="rescue-btn" onclick="claimRescue()" ${!canRescue?'disabled':''}>
+      ${canRescue?`領取補血包 +${RESCUE_AMOUNT} 枚`:'補血包已用完'}</button>
+    <div class="rescue-dots">${[0,1,2].map(i=>`<div class="rescue-dot ${i<rescueUsed?'used':''}"></div>`).join('')}</div>
+    <div style="font-size:11px;color:var(--t3);margin-top:6px;">已領 ${rescueUsed}/${MAX_RESCUE} 次</div>
+  </div>`:'')+`
+  <div class="profile-hero">
+    <div style="font-size:20px;font-weight:700;margin-bottom:4px;">👤 ${currentUser.username}</div>
+    <div style="font-size:32px;font-weight:700;color:var(--yellow);margin-bottom:4px;">${tokens.toLocaleString()}</div>
+    <div style="font-size:12px;color:var(--t2);">虛擬代幣 · ${diff>=0?'📈 +':'📉 '}${diff.toLocaleString()} vs 初始</div>
+  </div>
+  <div class="stat-grid">
+    <div class="stat-box"><div style="font-size:20px;font-weight:700;color:var(--blue)">${myBets.length}</div><div style="font-size:11px;color:var(--t2)">下注場次</div></div>
+    <div class="stat-box"><div style="font-size:20px;font-weight:700;color:var(--green)">${wins}</div><div style="font-size:11px;color:var(--t2)">猜對</div></div>
+    <div class="stat-box"><div style="font-size:20px;font-weight:700;color:var(--red)">${losses}</div><div style="font-size:11px;color:var(--t2)">猜錯</div></div>
+    <div class="stat-box"><div style="font-size:20px;font-weight:700;color:var(--yellow)">${myBets.length-wins-losses}</div><div style="font-size:11px;color:var(--t2)">待結算</div></div>
+  </div>
+  <div class="section-title">📋 下注紀錄</div>`
+  +(myBets.length?myBets.map(b=>{
+    const hw=b.game&&b.game.winner&&b.team===b.game.winner,hl=b.game&&b.game.winner&&b.team!==b.game.winner;
+    const cls=hw?'win':hl?'lose':'pending';
+    const txt=hw?`✅ 贏回 ${(b.payout||0).toLocaleString()} 枚`:hl?`❌ 輸掉 ${b.amount} 枚`:'⏳ 待結果';
+    return `<div class="bet-hist-item"><div class="bhi-row"><div class="bhi-game">${b.game?b.game.t1+'班 vs '+b.game.t2+'班':b.gid}</div><div class="bhi-amount ${cls}">${txt}</div></div><div class="bhi-meta">下注 ${b.amount.toLocaleString()} 枚 → ${b.team}班 · ${new Date(b.placedAt).toLocaleString('zh-TW',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}</div></div>`;
+  }).join(''):'<div class="empty-state">尚無下注紀錄</div>');
 }
-
-// ═══════════════════════════════════════════════════════════════
-//  TAB 2: PROFILE
-// ═══════════════════════════════════════════════════════════════
-function renderProfile() {
-  const el    = document.getElementById('tab-2');
-  const me    = liveUsers[currentUser.username] || currentUser;
-  const tokens = me.tokens || 0;
-  const diff   = tokens - INITIAL_TOKENS;
-
-  // Collect my bets
-  const myBets = [];
-  Object.entries(liveBets).forEach(([gameId, gameBets]) => {
-    if (gameBets[currentUser.username]) {
-      const bet = gameBets[currentUser.username];
-      const game = findGame(gameId);
-      myBets.push({ ...bet, gameId, game });
-    }
-  });
-  myBets.sort((a,b) => (b.placedAt||0) - (a.placedAt||0));
-
-  const wins   = myBets.filter(b => b.game && b.game.winner && b.team === b.game.winner).length;
-  const losses = myBets.filter(b => b.game && b.game.winner && b.team !== b.game.winner).length;
-
-  const rescueUsed = me.rescueUsed || 0;
-  const canRescue  = tokens <= 200 && rescueUsed < MAX_RESCUE;
-  const rescueBanner = (tokens <= 200) ? `
-    <div class="rescue-banner">
-      <div class="rescue-title">🆘 代幣不足！</div>
-      <div class="rescue-sub">每位玩家可領取 ${MAX_RESCUE} 次補血包，每次 +${RESCUE_AMOUNT} 枚（由莊家支付）</div>
-      <button class="rescue-btn" onclick="claimRescue()" ${!canRescue ? 'disabled' : ''}>
-        ${canRescue ? `領取補血包 +${RESCUE_AMOUNT} 枚` : '補血包已用完'}
-      </button>
-      <div class="rescue-dots">
-        ${[0,1,2].map(i => `<div class="rescue-dot ${i < rescueUsed ? 'used' : ''}"></div>`).join('')}
+async function claimRescue(){
+  const me=liveUsers[currentUser.username]||{};
+  if((me.rescueUsed||0)>=MAX_RESCUE){toast('補血包已用完','error');return;}
+  if((me.tokens||0)>200){toast('代幣超過 200 枚，不能領','error');return;}
+  spinner(true);
+  try{
+    await db.ref('users/'+currentUser.username+'/tokens').transaction(t=>(t||0)+RESCUE_AMOUNT);
+    await db.ref('users/'+currentUser.username+'/rescueUsed').transaction(t=>(t||0)+1);
+    await db.ref('users/'+HOST_NAME+'/tokens').transaction(t=>(t||0)-RESCUE_AMOUNT);
+    spinner(false);toast(`🆘 補血包 +${RESCUE_AMOUNT} 枚！`,'success');
+  }catch(e){toast('失敗','error');spinner(false);}
+}
+function renderHostPanel(){
+  if(!currentUser?.isHost)return;
+  const el=document.getElementById('tab-3');
+  const hostTokens=(liveUsers[HOST_NAME]||{}).tokens||0;
+  const rounds=Object.values(liveRounds).sort((a,b)=>a.id.localeCompare(b.id));
+  const noRounds=!rounds.length;
+  const roundsHtml=rounds.map(round=>{
+    const games=Object.values(round.games||{}).sort((a,b)=>a.id.localeCompare(b.id));
+    const canOpen=round.status==='locked',canClose=round.status==='open',isClosed=round.status==='closed';
+    return `<div class="host-section"><div class="host-section-title">⚙️ ${round.label} (${round.date})</div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+        ${canOpen?`<button class="hb hb-open" onclick="setRoundStatus('${round.id}','open')">✅ 開放下注</button>`:''}
+        ${canClose?`<button class="hb hb-close" onclick="setRoundStatus('${round.id}','closed')">⏹ 截止投注 & 結算</button>`:''}
+        ${isClosed?`<button class="hb hb-open" style="opacity:.7" onclick="setRoundStatus('${round.id}','open')">↩ 重新開放</button>`:''}
       </div>
-      <div style="font-size:11px;color:var(--t3);margin-top:6px;">已領 ${rescueUsed}/${MAX_RESCUE} 次</div>
-    </div>` : '';
-
-  el.innerHTML = `
-    ${rescueBanner}
-    <div class="profile-hero">
-      <div class="profile-name">👤 ${currentUser.username}</div>
-      <div class="profile-tokens">${tokens.toLocaleString()}</div>
-      <div class="profile-sub">虛擬代幣 · ${diff >= 0 ? '📈 +' : '📉 '}${diff.toLocaleString()} (vs 初始 1,000)</div>
-    </div>
-    <div class="stat-grid">
-      <div class="stat-box"><div class="stat-val" style="color:var(--blue)">${myBets.length}</div><div class="stat-lbl">總下注場次</div></div>
-      <div class="stat-box"><div class="stat-val" style="color:var(--green)">${wins}</div><div class="stat-lbl">預測正確</div></div>
-      <div class="stat-box"><div class="stat-val" style="color:var(--red)">${losses}</div><div class="stat-lbl">預測失誤</div></div>
-      <div class="stat-box"><div class="stat-val" style="color:var(--yellow)">${myBets.length - wins - losses}</div><div class="stat-lbl">待結算</div></div>
-    </div>
-    <div class="section-title">📋 我的下注紀錄</div>
-    ${myBets.length === 0 ? '<div class="empty-state">尚無下注紀錄</div>' : myBets.map(b => {
-      const hasResult = b.game && b.game.winner;
-      const isWin  = hasResult && b.team === b.game.winner;
-      const isLose = hasResult && b.team !== b.game.winner;
-      const status = isWin ? 'win' : isLose ? 'lose' : 'pending';
-      const potential = b.potentialPayout || Math.floor(b.amount * (b.lockedOdds||2.0));
-      const statusText = isWin
-        ? `✅ 贏回 ${(b.payout||0).toLocaleString()} 枚`
-        : isLose ? `❌ 輸掉 ${b.amount.toLocaleString()} 枚`
-        : `⏳ 待結果（可得 ${potential.toLocaleString()} 枚）`;
-      const t1 = b.game ? b.game.t1 : '?';
-      const t2 = b.game ? b.game.t2 : '?';
-      return `
-        <div class="bet-hist-item">
-          <div class="bhi-row">
-            <div class="bhi-game">${t1}班 vs ${t2}班</div>
-            <div class="bhi-amount ${status}">${statusText}</div>
-          </div>
-          <div class="bhi-meta">
-            下注 ${b.amount.toLocaleString()} 枚 → ${b.team}班
-            <span class="odds-badge">${(b.lockedOdds||2.0).toFixed(2)}x</span>
-            · ${new Date(b.placedAt).toLocaleString('zh-TW',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}
-          </div>
-        </div>`;
-    }).join('')}`;
-}
-
-// ═══════════════════════════════════════════════════════════════
-//  TAB 3: HOST PANEL
-// ═══════════════════════════════════════════════════════════════
-function renderHostPanel() {
-  if (!currentUser?.isHost) return;
-  const el = document.getElementById('tab-3');
-  const rounds = Object.values(liveRounds).sort((a,b) => a.id.localeCompare(b.id));
-
-  const roundsHtml = rounds.map(round => {
-    const games = Object.values(round.games || {}).sort((a,b) => a.id.localeCompare(b.id));
-    const canOpen   = round.status === 'locked';
-    const canClose  = round.status === 'open';
-    const isClosed  = round.status === 'closed';
-
-    const gamesHtml = games.map(g => {
-      const hasResult = !!g.winner;
-      const o1 = calcOdds(g.id, g.t1);
-      const o2 = calcOdds(g.id, g.t2);
-      return `
-        <div class="host-game-row">
-          <div class="hgr-meta">🕐 ${g.time} · ${g.id.toUpperCase()}${g.note ? ' · '+g.note : ''}</div>
-          <div class="hgr-teams">
-            <input class="hgr-inp" id="ht1-${g.id}" value="${g.t1}" placeholder="隊伍1">
-            <input class="hgr-inp" id="ht2-${g.id}" value="${g.t2}" placeholder="隊伍2">
-            <button class="hb" onclick="updateTeams('${g.id}','${round.id}')">更新</button>
-          </div>
-          <div style="font-size:11px;color:var(--t2);margin-bottom:8px;">
-            彩池：${o1.totalPool.toLocaleString()} 枚 ｜
-            ${g.t1} ${o1.teamPool.toLocaleString()}枚(${o1.odds?o1.odds.toFixed(2)+'x':'待注'}) ／
-            ${g.t2} ${o2.teamPool.toLocaleString()}枚(${o2.odds?o2.odds.toFixed(2)+'x':'待注'})
-          </div>
+      ${games.map(g=>{
+        const o1=calcOdds(g.id,g.t1),o2=calcOdds(g.id,g.t2),hasResult=!!g.winner;
+        return `<div class="host-game-row">
+          <div class="hgr-meta">🕐 ${g.time}${g.note?' · '+g.note:''}</div>
+          <div class="hgr-teams"><input class="hgr-inp" id="ht1-${g.id}" value="${g.t1}"><input class="hgr-inp" id="ht2-${g.id}" value="${g.t2}"><button class="hb" onclick="updateTeams('${g.id}','${round.id}')">更新</button></div>
+          <div class="hgr-pool">彩池 ${o1.total.toLocaleString()} 枚 ｜ ${g.t1} ${o1.teamPool.toLocaleString()}枚(${o1.odds?o1.odds.toFixed(2)+'x':'待注'}) ／ ${g.t2} ${o2.teamPool.toLocaleString()}枚(${o2.odds?o2.odds.toFixed(2)+'x':'待注'})</div>
           <div class="hgr-btns">
-            ${!hasResult ? `
-              <button class="hb hb-win1" onclick="setWinner('${g.id}','${round.id}','t1')">🏆 ${g.t1} 晉級</button>
-              <button class="hb hb-win2" onclick="setWinner('${g.id}','${round.id}','t2')">🏆 ${g.t2} 晉級</button>
-            ` : `
-              <span style="font-size:12px;color:var(--green)">✅ 勝者：${g.winner}班</span>
-              <button class="hb hb-reset" onclick="clearWinner('${g.id}','${round.id}')">撤回</button>
-            `}
-          </div>
-        </div>`;
-    }).join('');
-
-    return `
-      <div class="host-section">
-        <div class="host-section-title">
-          ⚙️ ${round.label} (${round.date})
-          <span style="font-size:11px;font-weight:400;color:var(--t2);">${round.status}</span>
-        </div>
-        <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
-          ${canOpen  ? `<button class="hb hb-open"  onclick="setRoundStatus('${round.id}','open')">✅ 開放下注</button>` : ''}
-          ${canClose ? `<button class="hb hb-close" onclick="setRoundStatus('${round.id}','closed')">⏹ 截止投注 & 結算</button>` : ''}
-          ${isClosed ? `<button class="hb hb-open" onclick="setRoundStatus('${round.id}','open')" style="opacity:.7;">↩ 重新開放</button>` : ''}
-          ${isClosed ? `<span style="font-size:12px;color:var(--orange);align-self:center;">已截止</span>` : ''}
-        </div>
-        ${gamesHtml}
-      </div>`;
+            ${!hasResult?`<button class="hb hb-win1" onclick="setWinner('${g.id}','${round.id}','t1')">🏆 ${g.t1} 晉級</button><button class="hb hb-win2" onclick="setWinner('${g.id}','${round.id}','t2')">🏆 ${g.t2} 晉級</button>`
+            :`<span style="font-size:12px;color:var(--green)">✅ ${g.winner}班晉級</span><button class="hb hb-reset" onclick="clearWinner('${g.id}','${round.id}')">撤回</button>`}
+          </div></div>`;
+      }).join('')}</div>`;
   }).join('');
-
-  const hostTokens = (liveUsers[HOST_NAME]||{}).tokens || 0;
-  const noRounds = !Object.keys(liveRounds).length;
-  el.innerHTML = `
-    <div class="host-balance">
-      <span class="hb-label">💼 莊家資金</span>
-      <span class="hb-val">🪙 ${hostTokens.toLocaleString()}</span>
-    </div>
-    ${noRounds ? `<div class="host-section" style="text-align:center;padding:20px;">
-      <div class="host-section-title" style="justify-content:center;margin-bottom:14px;">⚠️ 賽程尚未初始化</div>
-      <button class="bet-btn" onclick="forceInitRounds()">🔄 立即建立賽程</button>
-    </div>` : ''}
+  el.innerHTML=`
+    <div class="host-balance"><span style="font-size:12px;color:var(--t2)">💼 莊家資金</span><span style="font-size:16px;font-weight:700;color:var(--yellow)">🪙 ${hostTokens.toLocaleString()}</span></div>
+    ${noRounds?`<div class="host-section" style="text-align:center;padding:20px;"><div class="host-section-title" style="justify-content:center;margin-bottom:14px;">⚠️ 賽程尚未初始化</div><button class="bet-submit" onclick="forceInitRounds()">🔄 立即建立賽程</button></div>`:''}
     ${roundsHtml}
-    <div class="host-section">
-      <div class="host-section-title">🎁 補發代幣給玩家</div>
+    <div class="host-section"><div class="host-section-title">🎁 補發代幣給玩家</div>
       <div class="give-row">
-        <div>
-          <div class="form-label" style="font-size:11px;color:var(--t2);margin-bottom:4px;">選擇玩家</div>
-          <select class="bet-team-sel" id="give-user">
-            ${Object.keys(liveUsers).filter(u=>!liveUsers[u].isHost).map(u=>`<option value="${u}">${u} (${(liveUsers[u].tokens||0).toLocaleString()})</option>`).join('')}
-          </select>
-        </div>
-        <div>
-          <div class="form-label" style="font-size:11px;color:var(--t2);margin-bottom:4px;">代幣數</div>
-          <input class="bet-amount-inp" type="number" id="give-amount" value="300" min="1">
-        </div>
+        <div><div class="form-label">選擇玩家</div><select id="give-user">${Object.keys(liveUsers).filter(u=>!liveUsers[u].isHost).map(u=>`<option value="${u}">${u} (${(liveUsers[u].tokens||0).toLocaleString()})</option>`).join('')}</select></div>
+        <div><div class="form-label">代幣數</div><input type="number" id="give-amount" value="300" min="1"></div>
         <button class="bet-submit" style="margin-top:18px;" onclick="giveTokens()">補發</button>
       </div>
     </div>
-    <div class="host-section">
-      <div class="host-section-title">📢 發送公告</div>
-      <div class="announce-row">
-        <input class="announce-inp" id="announce-msg" placeholder="輸入公告內容...">
-        <button class="announce-btn" onclick="sendAnnouncement()">發送</button>
-      </div>
+    <div class="host-section"><div class="host-section-title">📢 發送公告</div>
+      <div class="announce-row"><input class="announce-inp" id="announce-msg" placeholder="輸入公告內容..."><button class="announce-btn" onclick="sendAnnouncement()">發送</button></div>
     </div>
-    <div class="host-section">
-      <div class="host-section-title">📱 分享給玩家</div>
+    <div class="host-section"><div class="host-section-title">📱 分享給玩家</div>
       <div style="text-align:center;padding:8px 0;">
         <div id="qrcode-wrap"></div>
         <div style="margin-top:12px;">
           <div style="font-size:11px;color:var(--t2);margin-bottom:6px;">或複製連結貼到 LINE 群組</div>
           <div style="display:flex;gap:6px;align-items:center;">
             <div id="share-url" style="font-size:11px;color:var(--blue);background:var(--s2);border-radius:8px;padding:8px 10px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></div>
-            <button class="hb hb-open" onclick="copyShareUrl()" style="white-space:nowrap;">複製</button>
+            <button class="hb hb-open" onclick="copyShareUrl()">複製</button>
           </div>
-          <div style="font-size:10px;color:var(--t3);margin-top:6px;">新用戶點連結後直接進入註冊頁，無需任何設定</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:6px;">新用戶點連結後直接進入，無需任何設定</div>
         </div>
       </div>
     </div>`;
-
-  // QR Code + 分享連結（含 Firebase 設定，新用戶直接進入）
-  setTimeout(() => {
-    const wrap = document.getElementById('qrcode-wrap');
-    const urlEl = document.getElementById('share-url');
-    const cfg = loadConfig();
-    const baseUrl = window.location.href.split('#')[0].split('?')[0];
-    const fullUrl = cfg ? baseUrl + '#cfg=' + btoa(JSON.stringify(cfg)) : baseUrl;
-    if (urlEl) urlEl.textContent = fullUrl;
-    if (wrap) {
-      wrap.innerHTML = `<img src="https://chart.googleapis.com/chart?chs=180x180&cht=qr&chl=${encodeURIComponent(fullUrl)}&choe=UTF-8" style="border-radius:8px;">`;
-    }
-  }, 200);
+  setTimeout(()=>{
+    const cfg=loadConfig(),base=location.href.split('#')[0].split('?')[0];
+    const url=cfg?base+'#cfg='+btoa(JSON.stringify(cfg)):base;
+    const urlEl=document.getElementById('share-url'),wrap=document.getElementById('qrcode-wrap');
+    if(urlEl)urlEl.textContent=url;
+    if(wrap)wrap.innerHTML=`<img src="https://chart.googleapis.com/chart?chs=180x180&cht=qr&chl=${encodeURIComponent(url)}&choe=UTF-8" style="border-radius:8px;">`;
+  },200);
 }
-
-async function setRoundStatus(roundId, status) {
-  if (status === 'closed') {
-    showConfirm('確認截止投注並結算？\n結算後代幣將自動分配給猜對的玩家。', async () => {
-      spinner(true);
-      try {
-        await db.ref('rounds/' + roundId + '/status').set('closed');
-        await settleRound(roundId);
-        spinner(false);
-        toast('⏹ 已截止並完成結算', 'success');
-      } catch(e) { toast('操作失敗：'+e.message, 'error'); spinner(false); }
+async function setRoundStatus(roundId,status){
+  if(status==='closed'){
+    showConfirm('確認截止投注並結算？\n結算後代幣將自動分配給猜對的玩家。',async()=>{
+      spinner(true);try{await db.ref('rounds/'+roundId+'/status').set('closed');await settleRound(roundId);spinner(false);toast('⏹ 已截止並完成結算','success');}
+      catch(e){toast('失敗：'+e.message,'error');spinner(false);}
     });
-  } else {
+  }else{
+    spinner(true);try{await db.ref('rounds/'+roundId+'/status').set(status);spinner(false);toast(status==='open'?'✅ 已開放下注':'✅ 已更新','success');}
+    catch(e){toast('失敗','error');spinner(false);}
+  }
+}
+async function updateTeams(gid,rid){
+  const t1=document.getElementById('ht1-'+gid)?.value.trim(),t2=document.getElementById('ht2-'+gid)?.value.trim();
+  if(!t1||!t2)return;await db.ref('rounds/'+rid+'/games/'+gid).update({t1,t2});toast('✅ 已更新','success');
+}
+async function setWinner(gid,rid,side){
+  const t1=document.getElementById('ht1-'+gid)?.value.trim(),t2=document.getElementById('ht2-'+gid)?.value.trim();
+  const winner=side==='t1'?t1:t2;
+  if(!winner||winner==='待定'){toast('請先設定隊伍名稱','error');return;}
+  showConfirm(`確認 ${winner}班 晉級？`,async()=>{
     spinner(true);
-    try {
-      await db.ref('rounds/' + roundId + '/status').set(status);
-      spinner(false);
-      toast(status === 'open' ? '✅ 已開放下注' : '✅ 已更新', 'success');
-    } catch(e) { toast('操作失敗：'+e.message, 'error'); spinner(false); }
+    try{
+      await db.ref('rounds/'+rid+'/games/'+gid+'/winner').set(winner);
+      const st=await db.ref('rounds/'+rid+'/status').get();
+      if(st.val()==='closed')await payoutGame(gid,winner);
+      await propagateWinner(gid,winner);
+      spinner(false);toast('✅ '+winner+'班晉級已記錄','success');
+    }catch(e){toast('失敗：'+e.message,'error');spinner(false);}
+  });
+}
+async function clearWinner(gid,rid){await db.ref('rounds/'+rid+'/games/'+gid+'/winner').set(null);toast('已撤回結果','info');}
+async function propagateWinner(gid,winner){
+  const num=parseInt(gid.replace('g',''));const ref='G'+num+'勝者';
+  const snap=await db.ref('rounds').get();if(!snap.exists())return;
+  const updates={};
+  Object.entries(snap.val()).forEach(([rid,round])=>{Object.entries(round.games||{}).forEach(([g2id,game])=>{
+    if(game.t1===ref)updates[`rounds/${rid}/games/${g2id}/t1`]=winner;
+    if(game.t2===ref)updates[`rounds/${rid}/games/${g2id}/t2`]=winner;
+  });});
+  if(Object.keys(updates).length>0){await db.ref().update(updates);toast('✅ '+winner+'班已帶入下一輪','success');}
+}
+async function settleRound(rid){
+  const snap=await db.ref('rounds/'+rid).get();if(!snap.exists())return;
+  for(const game of Object.values(snap.val().games||{})){if(game.winner)await payoutGame(game.id,game.winner);}
+}
+async function payoutGame(gid,winner){
+  const snap=await db.ref('bets/'+gid).get();if(!snap.exists())return;
+  const bets=snap.val();let total=0,winPool=0;
+  Object.values(bets).forEach(b=>{if(b.settled)return;total+=b.amount;if(b.team===winner)winPool+=b.amount;});
+  if(!winPool){await db.ref('users/'+HOST_NAME+'/tokens').transaction(t=>(t||0)+total);return;}
+  let paid=0;
+  for(const [uname,bet] of Object.entries(bets)){
+    if(bet.settled)continue;
+    if(bet.team!==winner){await db.ref('bets/'+gid+'/'+uname).update({payout:0,settled:true});continue;}
+    const payout=Math.floor((bet.amount/winPool)*total);paid+=payout;
+    await db.ref('users/'+uname+'/tokens').transaction(t=>(t||0)+payout);
+    await db.ref('bets/'+gid+'/'+uname).update({payout,settled:true});
   }
+  const net=total-paid;if(net!==0)await db.ref('users/'+HOST_NAME+'/tokens').transaction(t=>(t||0)+net);
 }
-
-async function updateTeams(gameId, roundId) {
-  const t1 = document.getElementById('ht1-'+gameId)?.value.trim();
-  const t2 = document.getElementById('ht2-'+gameId)?.value.trim();
-  if (!t1 || !t2) return;
-  await db.ref('rounds/'+roundId+'/games/'+gameId).update({ t1, t2 });
-  toast('✅ 隊伍名稱已更新', 'success');
-}
-
-async function updateOdds(gameId, roundId) {
-  const o1 = parseFloat(document.getElementById('ho1-'+gameId)?.value) || 2.0;
-  const o2 = parseFloat(document.getElementById('ho2-'+gameId)?.value) || 2.0;
-  if (o1 < 1.01 || o2 < 1.01) { toast('賠率不能低於 1.01', 'error'); return; }
-  await db.ref('rounds/'+roundId+'/games/'+gameId).update({ t1Odds: o1, t2Odds: o2 });
-  toast(`✅ 賠率已設定：${o1.toFixed(2)}x / ${o2.toFixed(2)}x`, 'success');
-}
-
-async function giveTokens() {
-  const username = document.getElementById('give-user')?.value;
-  const amount   = parseInt(document.getElementById('give-amount')?.value) || 0;
-  if (!username || amount < 1) { toast('請選擇玩家並輸入數量', 'error'); return; }
+async function giveTokens(){
+  const uname=document.getElementById('give-user')?.value,amount=parseInt(document.getElementById('give-amount')?.value)||0;
+  if(!uname||amount<1){toast('請選擇玩家並輸入數量','error');return;}
   spinner(true);
-  try {
-    await db.ref('users/'+username+'/tokens').transaction(t => (t||0) + amount);
-    await db.ref('users/'+HOST_NAME+'/tokens').transaction(t => (t||0) - amount);
-    spinner(false);
-    toast(`✅ 已補發 ${amount} 枚給 ${username}`, 'success');
-    await sendAnnouncementSilent(`🎁 ${username} 獲得莊家補發 ${amount} 枚代幣`);
-  } catch(e) { toast('失敗：'+e.message, 'error'); spinner(false); }
+  try{
+    await db.ref('users/'+uname+'/tokens').transaction(t=>(t||0)+amount);
+    await db.ref('users/'+HOST_NAME+'/tokens').transaction(t=>(t||0)-amount);
+    await db.ref('announcements').push({text:`🎁 ${uname} 獲得莊家補發 ${amount} 枚代幣`,from:HOST_NAME,at:Date.now()});
+    spinner(false);toast(`✅ 已補發 ${amount} 枚給 ${uname}`,'success');
+  }catch(e){toast('失敗','error');spinner(false);}
 }
-
-// 自動把勝者帶入下一輪對應格子
-async function propagateWinner(gameId, winner) {
-  const num = parseInt(gameId.replace('g',''));
-  const ref = 'G' + num + '勝者'; // g01 -> G1勝者, g10 -> G10勝者
-  const snap = await db.ref('rounds').get();
-  if (!snap.exists()) return;
-  const rounds = snap.val();
-  const updates = {};
-  Object.entries(rounds).forEach(([rid, round]) => {
-    Object.entries(round.games || {}).forEach(([gid, game]) => {
-      if (game.t1 === ref) updates[`rounds/${rid}/games/${gid}/t1`] = winner;
-      if (game.t2 === ref) updates[`rounds/${rid}/games/${gid}/t2`] = winner;
-    });
-  });
-  if (Object.keys(updates).length > 0) {
-    await db.ref().update(updates);
-    toast(`✅ ${winner}班已自動帶入下一輪！`, 'success');
-  }
+async function sendAnnouncement(){
+  const msg=document.getElementById('announce-msg')?.value.trim();if(!msg)return;
+  await db.ref('announcements').push({text:msg,from:currentUser.username,at:Date.now()});
+  document.getElementById('announce-msg').value='';toast('📢 公告已發送','success');
 }
-
-async function setWinner(gameId, roundId, side) {
-  const t1El = document.getElementById('ht1-'+gameId);
-  const t2El = document.getElementById('ht2-'+gameId);
-  if (!t1El || !t2El) return;
-  const t1 = t1El.value.trim();
-  const t2 = t2El.value.trim();
-  const winner = side === 't1' ? t1 : t2;
-  if (!winner || winner === '待定') { toast('請先設定隊伍名稱', 'error'); return; }
-
-  // 確認彈窗
-  showConfirm(`確認 ${winner}班 晉級？`, async () => {
-    spinner(true);
-    try {
-      await db.ref('rounds/'+roundId+'/games/'+gameId+'/winner').set(winner);
-      const roundSnap = await db.ref('rounds/'+roundId+'/status').get();
-      if (roundSnap.val() === 'closed') await payoutGame(gameId, winner);
-      await propagateWinner(gameId, winner);
-      spinner(false);
-      toast('✅ '+winner+'班晉級已記錄！', 'success');
-    } catch(e) { toast('操作失敗：'+e.message, 'error'); spinner(false); }
+function copyShareUrl(){
+  const url=document.getElementById('share-url')?.textContent;if(!url)return;
+  navigator.clipboard.writeText(url).then(()=>toast('✅ 連結已複製！','success')).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=url;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('✅ 連結已複製！','success');
   });
 }
-
-async function clearWinner(gameId, roundId) {
-  await db.ref('rounds/'+roundId+'/games/'+gameId+'/winner').set(null);
-  toast('已撤回比賽結果', 'info');
-}
-
-async function settleRound(roundId) {
-  const roundSnap = await db.ref('rounds/'+roundId).get();
-  const round = roundSnap.val();
-  if (!round || !round.games) return;
-  for (const game of Object.values(round.games)) {
-    if (game.winner) await payoutGame(game.id, game.winner);
-  }
-}
-
-// 彩池式結算：贏家按比例分配總彩池，莊家追蹤淨盈虧
-async function payoutGame(gameId, winner) {
-  const betsSnap = await db.ref('bets/'+gameId).get();
-  if (!betsSnap.exists()) return;
-  const bets = betsSnap.val();
-
-  let totalPool = 0, winPool = 0;
-  Object.values(bets).forEach(b => {
-    if (b.settled) return;
-    totalPool += b.amount;
-    if (b.team === winner) winPool += b.amount;
-  });
-  if (!winPool) {
-    // 沒人猜中，總彩池歸莊家
-    await db.ref('users/'+HOST_NAME+'/tokens').transaction(t => (t||0) + totalPool);
-    return;
-  }
-
-  let totalPaidOut = 0;
-  for (const [username, bet] of Object.entries(bets)) {
-    if (bet.settled) continue;
-    if (bet.team !== winner) {
-      // 輸家：代幣歸入彩池（已在下注時扣除，不需再動）
-      await db.ref('bets/'+gameId+'/'+username).update({ payout: 0, settled: true });
-      continue;
-    }
-    // 贏家：按比例分配總彩池
-    const payout = Math.floor((bet.amount / winPool) * totalPool);
-    totalPaidOut += payout;
-    await db.ref('users/'+username+'/tokens').transaction(t => (t||0) + payout);
-    await db.ref('bets/'+gameId+'/'+username).update({ payout, settled: true });
-  }
-  // 莊家淨收益 = 輸家總注 - 額外派彩（若有誤差）
-  const hostNet = totalPool - totalPaidOut;
-  if (hostNet !== 0) await db.ref('users/'+HOST_NAME+'/tokens').transaction(t => (t||0) + hostNet);
-}
-
-async function sendAnnouncement() {
-  const msg = document.getElementById('announce-msg').value.trim();
-  if (!msg) return;
-  await db.ref('announcements').push({ text: msg, from: currentUser.username, at: Date.now() });
-  document.getElementById('announce-msg').value = '';
-  toast('📢 公告已發送', 'success');
-}
-
-async function sendAnnouncementSilent(msg) {
-  await db.ref('announcements').push({ text: msg, from: HOST_NAME, at: Date.now() });
-}
-
-function copyShareUrl() {
-  const urlEl = document.getElementById('share-url');
-  if (!urlEl) return;
-  navigator.clipboard.writeText(urlEl.textContent)
-    .then(() => toast('✅ 連結已複製！貼到 LINE 群組吧', 'success'))
-    .catch(() => {
-      // fallback
-      const ta = document.createElement('textarea');
-      ta.value = urlEl.textContent;
-      document.body.appendChild(ta);
-      ta.select(); document.execCommand('copy');
-      document.body.removeChild(ta);
-      toast('✅ 連結已複製！', 'success');
-    });
-}
-
-// ═══════════════════════════════════════════════════════════════
-//  補血包（玩家自助）
-// ═══════════════════════════════════════════════════════════════
-const MAX_RESCUE = 3;
-const RESCUE_AMOUNT = 300;
-
-async function claimRescue() {
-  const me = liveUsers[currentUser.username] || {};
-  const used = me.rescueUsed || 0;
-  if (used >= MAX_RESCUE) { toast('補血包已用完（上限3次）', 'error'); return; }
-  if ((me.tokens||0) > 200) { toast('代幣還有 200 以上，不能領補血包', 'error'); return; }
-  spinner(true);
-  try {
-    await db.ref('users/'+currentUser.username+'/tokens').transaction(t => (t||0) + RESCUE_AMOUNT);
-    await db.ref('users/'+currentUser.username+'/rescueUsed').transaction(t => (t||0) + 1);
-    await db.ref('users/'+HOST_NAME+'/tokens').transaction(t => (t||0) - RESCUE_AMOUNT);
-    spinner(false);
-    toast(`🆘 補血包 +${RESCUE_AMOUNT} 枚！剩餘 ${MAX_RESCUE - used - 1} 次`, 'success');
-    renderProfile();
-  } catch(e) { toast('失敗：'+e.message, 'error'); spinner(false); }
-}
-
-// ═══════════════════════════════════════════════════════════════
-//  UI HELPERS
-// ═══════════════════════════════════════════════════════════════
-function showScreen(name) {
-  ['setup','login','app'].forEach(s => {
-    document.getElementById('screen-'+s).classList.toggle('hidden', s !== name);
-  });
-}
-
-function showAnnouncement(text, from) {
-  const bar  = document.getElementById('announce-bar');
-  const textEl = document.getElementById('announce-text');
-  bar.classList.remove('hidden');
-  textEl.textContent = `📢 ${from}：${text}`;
-}
-
+function showScreen(name){['setup','login','app'].forEach(s=>document.getElementById('screen-'+s).classList.toggle('hidden',s!==name));}
+function spinner(show){document.getElementById('spinner').classList.toggle('hidden',!show);}
 let toastTimer;
-function toast(msg, type='info') {
-  const el = document.getElementById('toast');
-  clearTimeout(toastTimer);
-  el.textContent = msg;
-  el.className = 'toast ' + type + ' show';
-  toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
-}
-
-function spinner(show) {
-  document.getElementById('spinner').classList.toggle('hidden', !show);
-}
-
-function showConfirm(msg, onOk) {
-  document.getElementById('confirm-title').textContent = msg;
-  document.getElementById('confirm-overlay').classList.remove('hidden');
-  const btn = document.getElementById('confirm-ok-btn');
-  btn.onclick = () => { closeConfirm(); onOk(); };
-}
-
-function closeConfirm() {
-  document.getElementById('confirm-overlay').classList.add('hidden');
-}
-
-// ═══════════════════════════════════════════════════════════════
-//  SERVICE WORKER
-// ═══════════════════════════════════════════════════════════════
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
-}
-
+function toast(msg,type='info'){const el=document.getElementById('toast');clearTimeout(toastTimer);el.textContent=msg;el.className='toast '+type+' show';toastTimer=setTimeout(()=>el.classList.remove('show'),2500);}
+function showConfirm(msg,onOk){document.getElementById('confirm-title').textContent=msg;document.getElementById('confirm-overlay').classList.remove('hidden');document.getElementById('confirm-ok-btn').onclick=()=>{closeConfirm();onOk();};}
+function closeConfirm(){document.getElementById('confirm-overlay').classList.add('hidden');}
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 init();
 </script>
 </body>

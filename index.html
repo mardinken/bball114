@@ -183,8 +183,17 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang 
 .toast.info{background:var(--blue2);color:#fff;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
+/* CONFIRM DIALOG */
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9998;padding:20px;}
+.confirm-box{background:var(--s1);border:1px solid var(--s3);border-radius:16px;padding:24px 20px;width:100%;max-width:320px;text-align:center;}
+.confirm-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;white-space:pre-line;line-height:1.5;}
+.confirm-btns{display:flex;gap:10px;margin-top:20px;}
+.confirm-ok{flex:1;padding:12px;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;}
+.confirm-cancel{flex:1;padding:12px;background:var(--s2);color:var(--text);border:1px solid var(--s3);border-radius:10px;font-size:15px;cursor:pointer;}
 /* SPINNER */
 .spinner-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9999;}
+.spinner{width:40px;height:40px;border:3px solid var(--s2);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
 .spinner{width:40px;height:40px;border:3px solid var(--s2);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
@@ -347,6 +356,15 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
 
 <div class="toast" id="toast"></div>
 <div class="spinner-overlay hidden" id="spinner"><div class="spinner"></div></div>
+<div class="confirm-overlay hidden" id="confirm-overlay">
+  <div class="confirm-box">
+    <div class="confirm-title" id="confirm-title"></div>
+    <div class="confirm-btns">
+      <button class="confirm-cancel" onclick="closeConfirm()">取消</button>
+      <button class="confirm-ok" id="confirm-ok-btn">確認</button>
+    </div>
+  </div>
+</div>
 
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -1106,16 +1124,27 @@ function renderHostPanel() {
       wrap.innerHTML = `<img src="https://chart.googleapis.com/chart?chs=180x180&cht=qr&chl=${encodeURIComponent(fullUrl)}&choe=UTF-8" style="border-radius:8px;">`;
     }
   }, 200);
-}(roundId, status) {
-  spinner(true);
-  try {
-    await db.ref('rounds/' + roundId + '/status').set(status);
-    if (status === 'closed') {
-      await settleRound(roundId);
-    }
-    spinner(false);
-    toast(status === 'open' ? '✅ 已開放下注' : '⏹ 已截止並結算', 'success');
-  } catch(e) { toast('操作失敗：'+e.message, 'error'); spinner(false); }
+}
+
+async function setRoundStatus(roundId, status) {
+  if (status === 'closed') {
+    showConfirm('確認截止投注並結算？\n結算後代幣將自動分配給猜對的玩家。', async () => {
+      spinner(true);
+      try {
+        await db.ref('rounds/' + roundId + '/status').set('closed');
+        await settleRound(roundId);
+        spinner(false);
+        toast('⏹ 已截止並完成結算', 'success');
+      } catch(e) { toast('操作失敗：'+e.message, 'error'); spinner(false); }
+    });
+  } else {
+    spinner(true);
+    try {
+      await db.ref('rounds/' + roundId + '/status').set(status);
+      spinner(false);
+      toast(status === 'open' ? '✅ 已開放下注' : '✅ 已更新', 'success');
+    } catch(e) { toast('操作失敗：'+e.message, 'error'); spinner(false); }
+  }
 }
 
 async function updateTeams(gameId, roundId) {
@@ -1176,15 +1205,19 @@ async function setWinner(gameId, roundId, side) {
   const t2 = t2El.value.trim();
   const winner = side === 't1' ? t1 : t2;
   if (!winner || winner === '待定') { toast('請先設定隊伍名稱', 'error'); return; }
-  spinner(true);
-  try {
-    await db.ref('rounds/'+roundId+'/games/'+gameId+'/winner').set(winner);
-    const roundSnap = await db.ref('rounds/'+roundId+'/status').get();
-    if (roundSnap.val() === 'closed') await payoutGame(gameId, winner);
-    await propagateWinner(gameId, winner); // 自動帶入下一輪
-    spinner(false);
-    toast('✅ 結果已記錄：'+winner+'班晉級', 'success');
-  } catch(e) { toast('操作失敗：'+e.message, 'error'); spinner(false); }
+
+  // 確認彈窗
+  showConfirm(`確認 ${winner}班 晉級？`, async () => {
+    spinner(true);
+    try {
+      await db.ref('rounds/'+roundId+'/games/'+gameId+'/winner').set(winner);
+      const roundSnap = await db.ref('rounds/'+roundId+'/status').get();
+      if (roundSnap.val() === 'closed') await payoutGame(gameId, winner);
+      await propagateWinner(gameId, winner);
+      spinner(false);
+      toast('✅ '+winner+'班晉級已記錄！', 'success');
+    } catch(e) { toast('操作失敗：'+e.message, 'error'); spinner(false); }
+  });
 }
 
 async function clearWinner(gameId, roundId) {
@@ -1315,6 +1348,17 @@ function toast(msg, type='info') {
 
 function spinner(show) {
   document.getElementById('spinner').classList.toggle('hidden', !show);
+}
+
+function showConfirm(msg, onOk) {
+  document.getElementById('confirm-title').textContent = msg;
+  document.getElementById('confirm-overlay').classList.remove('hidden');
+  const btn = document.getElementById('confirm-ok-btn');
+  btn.onclick = () => { closeConfirm(); onOk(); };
+}
+
+function closeConfirm() {
+  document.getElementById('confirm-overlay').classList.add('hidden');
 }
 
 // ═══════════════════════════════════════════════════════════════

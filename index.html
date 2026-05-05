@@ -423,6 +423,18 @@ let currentTab = 0;
 //  Init / Config
 // ═══════════════════════════════════════════════════════════════
 function init() {
+  // 1. 嘗試從 URL hash 讀取設定（掃 QR Code 的新用戶）
+  if (location.hash && location.hash.startsWith('#cfg=')) {
+    try {
+      const encoded = location.hash.slice(5);
+      const cfg = JSON.parse(atob(encoded));
+      if (cfg.apiKey && cfg.databaseURL) {
+        localStorage.setItem('bball114_cfg', JSON.stringify(cfg));
+        history.replaceState(null, '', location.pathname); // 清除 hash
+      }
+    } catch(e) {}
+  }
+
   const cfg = loadConfig();
   if (!cfg) { showScreen('setup'); return; }
   try {
@@ -569,11 +581,10 @@ function attachListeners() {
 
   // Announcements
   const aRef = db.ref('announcements');
-  const aListener = aRef.limitToLast(1).on('value', snap => {
+  const aListener = aRef.limitToLast(5).on('value', snap => {
     if (!snap.val()) return;
-    const msgs = Object.values(snap.val());
-    const msg = msgs[msgs.length - 1];
-    if (msg) showAnnouncement(msg.text, msg.from);
+    const msgs = Object.values(snap.val()).sort((a,b) => (b.at||0)-(a.at||0));
+    if (msgs[0]) showAnnouncement(msgs[0].text, msgs[0].from);
   });
   listeners.push({ ref: aRef, event: 'value', fn: aListener });
 }
@@ -733,11 +744,11 @@ function renderGames() {
           betInputHtml = `
             <div class="bet-section">
               <div class="bet-row">
-                <select class="bet-team-sel" id="sel-${game.id}">
+                <select class="bet-team-sel" id="sel-${game.id}" onchange="updateBetPreview('${game.id}')">
                   <option value="${game.t1}">${game.t1}班</option>
                   <option value="${game.t2}">${game.t2}班</option>
                 </select>
-                <input class="bet-amount-inp" type="number" id="amt-${game.id}" value="100" min="1" max="${currentUser.tokens}">
+                <input class="bet-amount-inp" type="number" id="amt-${game.id}" value="${Math.min(100,currentUser.tokens)}" min="1" max="${currentUser.tokens}" oninput="updateBetPreview('${game.id}')">
                 <button class="bet-submit" onclick="placeBet('${game.id}')">下注</button>
               </div>
               <div class="quick-amounts">
@@ -745,8 +756,9 @@ function renderGames() {
                 <div class="qa" onclick="setAmt('${game.id}',100)">100</div>
                 <div class="qa" onclick="setAmt('${game.id}',200)">200</div>
                 <div class="qa" onclick="setAmt('${game.id}',500)">500</div>
-                <div class="qa" onclick="setAmt('${game.id}', Math.min(${currentUser.tokens}, parseInt(document.getElementById('amt-${game.id}').value)||0))">全壓</div>
+                <div class="qa" onclick="setAmt('${game.id}',${currentUser.tokens})">全壓 ${currentUser.tokens}</div>
               </div>
+              <div id="preview-${game.id}" style="font-size:12px;color:var(--yellow);margin-top:6px;text-align:center;"></div>
             </div>`;
         }
       } else if (round.status === 'locked') {
@@ -795,7 +807,28 @@ function renderGames() {
 
 function setAmt(gameId, val) {
   const inp = document.getElementById('amt-' + gameId);
-  if (inp) inp.value = Math.min(currentUser.tokens, Math.max(1, parseInt(val) || 100));
+  if (inp) { inp.value = Math.min(currentUser.tokens, Math.max(1, parseInt(val) || 100)); updateBetPreview(gameId); }
+}
+
+function updateBetPreview(gameId) {
+  const selEl = document.getElementById('sel-' + gameId);
+  const amtEl = document.getElementById('amt-' + gameId);
+  const prevEl = document.getElementById('preview-' + gameId);
+  if (!selEl || !amtEl || !prevEl) return;
+  const team = selEl.value;
+  const amount = parseInt(amtEl.value) || 0;
+  if (amount <= 0) { prevEl.textContent = ''; return; }
+  // 預估下注後賠率
+  const gameBets = liveBets[gameId] || {};
+  let totalPool = amount, teamPool = amount;
+  Object.values(gameBets).forEach(b => {
+    totalPool += b.amount;
+    if (b.team === team) teamPool += b.amount;
+  });
+  const estOdds = totalPool / teamPool;
+  const estReturn = Math.floor(amount * estOdds);
+  const estProfit = estReturn - amount;
+  prevEl.textContent = `🏆 若 ${team}班贏：可得 ${estReturn.toLocaleString()} 枚（獲利 +${estProfit.toLocaleString()}）`;
 }
 
 async function placeBet(gameId) {
@@ -1004,7 +1037,8 @@ function renderHostPanel() {
         <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
           ${canOpen  ? `<button class="hb hb-open"  onclick="setRoundStatus('${round.id}','open')">✅ 開放下注</button>` : ''}
           ${canClose ? `<button class="hb hb-close" onclick="setRoundStatus('${round.id}','closed')">⏹ 截止投注 & 結算</button>` : ''}
-          ${isClosed ? `<span style="font-size:12px;color:var(--orange)">⏹ 已截止</span>` : ''}
+          ${isClosed ? `<button class="hb hb-open" onclick="setRoundStatus('${round.id}','open')" style="opacity:.7;">↩ 重新開放</button>` : ''}
+          ${isClosed ? `<span style="font-size:12px;color:var(--orange);align-self:center;">已截止</span>` : ''}
         </div>
         ${gamesHtml}
       </div>`;
@@ -1044,10 +1078,35 @@ function renderHostPanel() {
         <input class="announce-inp" id="announce-msg" placeholder="輸入公告內容...">
         <button class="announce-btn" onclick="sendAnnouncement()">發送</button>
       </div>
+    </div>
+    <div class="host-section">
+      <div class="host-section-title">📱 分享給玩家</div>
+      <div style="text-align:center;padding:8px 0;">
+        <div id="qrcode-wrap"></div>
+        <div style="margin-top:12px;">
+          <div style="font-size:11px;color:var(--t2);margin-bottom:6px;">或複製連結貼到 LINE 群組</div>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <div id="share-url" style="font-size:11px;color:var(--blue);background:var(--s2);border-radius:8px;padding:8px 10px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></div>
+            <button class="hb hb-open" onclick="copyShareUrl()" style="white-space:nowrap;">複製</button>
+          </div>
+          <div style="font-size:10px;color:var(--t3);margin-top:6px;">新用戶點連結後直接進入註冊頁，無需任何設定</div>
+        </div>
+      </div>
     </div>`;
-}
 
-async function setRoundStatus(roundId, status) {
+  // QR Code + 分享連結（含 Firebase 設定，新用戶直接進入）
+  setTimeout(() => {
+    const wrap = document.getElementById('qrcode-wrap');
+    const urlEl = document.getElementById('share-url');
+    const cfg = loadConfig();
+    const baseUrl = window.location.href.split('#')[0].split('?')[0];
+    const fullUrl = cfg ? baseUrl + '#cfg=' + btoa(JSON.stringify(cfg)) : baseUrl;
+    if (urlEl) urlEl.textContent = fullUrl;
+    if (wrap) {
+      wrap.innerHTML = `<img src="https://chart.googleapis.com/chart?chs=180x180&cht=qr&chl=${encodeURIComponent(fullUrl)}&choe=UTF-8" style="border-radius:8px;">`;
+    }
+  }, 200);
+}(roundId, status) {
   spinner(true);
   try {
     await db.ref('rounds/' + roundId + '/status').set(status);
@@ -1089,6 +1148,26 @@ async function giveTokens() {
   } catch(e) { toast('失敗：'+e.message, 'error'); spinner(false); }
 }
 
+// 自動把勝者帶入下一輪對應格子
+async function propagateWinner(gameId, winner) {
+  const num = parseInt(gameId.replace('g',''));
+  const ref = 'G' + num + '勝者'; // g01 -> G1勝者, g10 -> G10勝者
+  const snap = await db.ref('rounds').get();
+  if (!snap.exists()) return;
+  const rounds = snap.val();
+  const updates = {};
+  Object.entries(rounds).forEach(([rid, round]) => {
+    Object.entries(round.games || {}).forEach(([gid, game]) => {
+      if (game.t1 === ref) updates[`rounds/${rid}/games/${gid}/t1`] = winner;
+      if (game.t2 === ref) updates[`rounds/${rid}/games/${gid}/t2`] = winner;
+    });
+  });
+  if (Object.keys(updates).length > 0) {
+    await db.ref().update(updates);
+    toast(`✅ ${winner}班已自動帶入下一輪！`, 'success');
+  }
+}
+
 async function setWinner(gameId, roundId, side) {
   const t1El = document.getElementById('ht1-'+gameId);
   const t2El = document.getElementById('ht2-'+gameId);
@@ -1100,9 +1179,9 @@ async function setWinner(gameId, roundId, side) {
   spinner(true);
   try {
     await db.ref('rounds/'+roundId+'/games/'+gameId+'/winner').set(winner);
-    // Payout if round is already closed
     const roundSnap = await db.ref('rounds/'+roundId+'/status').get();
     if (roundSnap.val() === 'closed') await payoutGame(gameId, winner);
+    await propagateWinner(gameId, winner); // 自動帶入下一輪
     spinner(false);
     toast('✅ 結果已記錄：'+winner+'班晉級', 'success');
   } catch(e) { toast('操作失敗：'+e.message, 'error'); spinner(false); }
@@ -1169,6 +1248,22 @@ async function sendAnnouncement() {
 
 async function sendAnnouncementSilent(msg) {
   await db.ref('announcements').push({ text: msg, from: HOST_NAME, at: Date.now() });
+}
+
+function copyShareUrl() {
+  const urlEl = document.getElementById('share-url');
+  if (!urlEl) return;
+  navigator.clipboard.writeText(urlEl.textContent)
+    .then(() => toast('✅ 連結已複製！貼到 LINE 群組吧', 'success'))
+    .catch(() => {
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = urlEl.textContent;
+      document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta);
+      toast('✅ 連結已複製！', 'success');
+    });
 }
 
 // ═══════════════════════════════════════════════════════════════

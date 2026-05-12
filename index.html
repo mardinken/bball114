@@ -411,12 +411,22 @@ function renderGames(){
       let betHtml='';
       if(isOpen&&!hasResult&&!t1Tbd&&!t2Tbd){
         if(myBet){betHtml=`<div class="no-bet-msg">✅ 已下注 ${myBet.amount.toLocaleString()} 枚 → ${myBet.team}班</div>`;}
-        else{betHtml=`<div class="bet-section"><div class="bet-row">
-          <select class="bet-team-sel" id="sel-${g.id}" onchange="updatePreview('${g.id}')"><option value="${g.t1}">${g.t1}班</option><option value="${g.t2}">${g.t2}班</option></select>
-          <input class="bet-amount-inp" type="number" id="amt-${g.id}" value="${Math.min(100,currentUser.tokens)}" min="1" max="${currentUser.tokens}" oninput="updatePreview('${g.id}')">
-          <button class="bet-submit" onclick="placeBet('${g.id}')">下注</button></div>
+        else{betHtml=`<div class="bet-section">
+          <div style="font-size:11px;color:var(--t2);margin-bottom:8px;text-align:center;">選擇下注隊伍</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+            <button id="btnT1-${g.id}" onclick="selectTeam('${g.id}','${g.t1}')"
+              style="padding:12px 6px;border-radius:10px;border:2px solid var(--s3);background:var(--s2);color:var(--text);font-size:16px;font-weight:700;cursor:pointer;">${g.t1}班</button>
+            <button id="btnT2-${g.id}" onclick="selectTeam('${g.id}','${g.t2}')"
+              style="padding:12px 6px;border-radius:10px;border:2px solid var(--s3);background:var(--s2);color:var(--text);font-size:16px;font-weight:700;cursor:pointer;">${g.t2}班</button>
+          </div>
+          <input type="hidden" id="sel-${g.id}" value="${g.t1}">
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input class="bet-amount-inp" style="flex:1;" type="number" id="amt-${g.id}" value="${Math.min(100,currentUser.tokens)}" min="1" max="${currentUser.tokens}" oninput="updatePreview('${g.id}')">
+            <button class="bet-submit" onclick="placeBet('${g.id}')">確認下注</button>
+          </div>
           <div class="quick-amounts"><div class="qa" onclick="setAmt('${g.id}',50)">50</div><div class="qa" onclick="setAmt('${g.id}',100)">100</div><div class="qa" onclick="setAmt('${g.id}',300)">300</div><div class="qa" onclick="setAmt('${g.id}',500)">500</div><div class="qa" onclick="setAmt('${g.id}',${currentUser.tokens})">全壓</div></div>
-          <div class="bet-preview" id="prev-${g.id}"></div></div>`;}
+          <div class="bet-preview" id="prev-${g.id}"></div>
+        </div>`;}
       }else if(round.status==='locked'){betHtml='<div class="no-bet-msg">🔒 此輪尚未開放下注</div>';}
       return `<div class="game-card">
         <div class="game-time">🕐 ${g.time}${g.note?' · '+g.note:''}</div>
@@ -430,11 +440,27 @@ function renderGames(){
     }).join('')}</div>`;
   }).join('');
 }
+function selectTeam(gid,team){
+  const g=findGame(gid); if(!g) return;
+  document.getElementById('sel-'+gid).value=team;
+  // highlight selected button
+  const b1=document.getElementById('btnT1-'+gid), b2=document.getElementById('btnT2-'+gid);
+  if(b1&&b2){
+    const isT1=team===g.t1;
+    b1.style.borderColor=isT1?'var(--blue2)':'var(--s3)';
+    b1.style.background=isT1?'#0c2a45':'var(--s2)';
+    b1.style.color=isT1?'var(--blue)':'var(--text)';
+    b2.style.borderColor=!isT1?'var(--blue2)':'var(--s3)';
+    b2.style.background=!isT1?'#0c2a45':'var(--s2)';
+    b2.style.color=!isT1?'var(--blue)':'var(--text)';
+  }
+  updatePreview(gid);
+}
 function setAmt(gid,v){const i=document.getElementById('amt-'+gid);if(i){i.value=Math.min(currentUser.tokens,Math.max(1,parseInt(v)||1));updatePreview(gid);}}
 function updatePreview(gid){
-  const sel=document.getElementById('sel-'+gid),amtEl=document.getElementById('amt-'+gid),el=document.getElementById('prev-'+gid);
-  if(!el)return;if(!sel||!amtEl){el.textContent='';return;}
-  const team=sel.value,amt=parseInt(amtEl.value)||0;
+  const selEl=document.getElementById('sel-'+gid),amtEl=document.getElementById('amt-'+gid),el=document.getElementById('prev-'+gid);
+  if(!el)return;if(!selEl||!amtEl){el.textContent='';return;}
+  const team=selEl.value,amt=parseInt(amtEl.value)||0;
   if(amt<=0){el.textContent='';return;}
   const bets=liveBets[gid]||{};let total=amt,tp=amt;
   Object.values(bets).forEach(b=>{total+=b.amount;if(b.team===team)tp+=b.amount;});
@@ -547,12 +573,34 @@ function renderHostPanel(){
     <div class="host-balance"><span style="font-size:12px;color:var(--t2)">💼 莊家資金</span><span style="font-size:16px;font-weight:700;color:var(--yellow)">🪙 ${hostTokens.toLocaleString()}</span></div>
     ${noRounds?`<div class="host-section" style="text-align:center;padding:20px;"><div class="host-section-title" style="justify-content:center;margin-bottom:14px;">⚠️ 賽程尚未初始化</div><button class="bet-submit" onclick="forceInitRounds()">🔄 立即建立賽程</button></div>`:''}
     ${roundsHtml}
-    <div class="host-section"><div class="host-section-title">🎁 補發代幣給玩家</div>
-      <div class="give-row">
-        <div><div class="form-label">選擇玩家</div><select id="give-user">${Object.keys(liveUsers).filter(u=>!liveUsers[u].isHost).map(u=>`<option value="${u}">${u} (${(liveUsers[u].tokens||0).toLocaleString()})</option>`).join('')}</select></div>
-        <div><div class="form-label">代幣數</div><input type="number" id="give-amount" value="300" min="1"></div>
-        <button class="bet-submit" style="margin-top:18px;" onclick="giveTokens()">補發</button>
-      </div>
+    <div class="host-section"><div class="host-section-title">👥 玩家管理</div>
+      ${Object.keys(liveUsers).filter(u=>!liveUsers[u].isHost).length===0
+        ? '<div style="font-size:12px;color:var(--t3);text-align:center;padding:8px;">尚無玩家</div>'
+        : Object.entries(liveUsers).filter(([n,u])=>!u.isHost).map(([uname,u])=>{
+            const playerBets=[];
+            Object.entries(liveBets).forEach(([gid,gb])=>{if(gb[uname])playerBets.push({gid,...gb[uname]});});
+            return `<div style="background:var(--s2);border-radius:10px;padding:10px 12px;margin-bottom:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span style="font-size:14px;font-weight:700;">${uname}</span>
+                <span style="font-size:12px;color:var(--yellow);">🪙 ${(u.tokens||0).toLocaleString()}</span>
+              </div>
+              <div style="font-size:11px;color:var(--t3);margin-bottom:8px;">密碼：<span style="color:var(--orange);font-weight:700;letter-spacing:2px;">${u.pin||'—'}</span></div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:${playerBets.length?'8px':'0'};">
+                <button class="hb hb-open" onclick="hostGiveTokens('${uname}',300)">補發 300</button>
+                <button class="hb hb-open" onclick="hostGiveTokens('${uname}',500)">補發 500</button>
+                <button class="hb" onclick="hostSetTokens('${uname}')">設定代幣</button>
+              </div>
+              ${playerBets.length?`<div style="font-size:11px;color:var(--t2);margin-bottom:4px;">下注紀錄：</div>`:''}
+              ${playerBets.map(b=>{
+                const game=findGame(b.gid);
+                return `<div style="display:flex;justify-content:space-between;align-items:center;background:var(--s1);border-radius:6px;padding:5px 8px;margin-bottom:4px;">
+                  <span style="font-size:12px;">${game?game.t1+'班 vs '+game.t2+'班':b.gid} → <b>${b.team}班</b> ${b.amount.toLocaleString()}枚</span>
+                  ${!b.settled?`<button class="hb hb-reset" style="padding:4px 8px;font-size:11px;" onclick="hostCancelBet('${uname}','${b.gid}',${b.amount})">取消</button>`:'<span style="font-size:11px;color:var(--t3);">已結算</span>'}
+                </div>`;
+              }).join('')}
+            </div>`;
+          }).join('')
+      }
     </div>
     <div class="host-section"><div class="host-section-title">📢 發送公告</div>
       <div class="announce-row"><input class="announce-inp" id="announce-msg" placeholder="輸入公告內容..."><button class="announce-btn" onclick="sendAnnouncement()">發送</button></div>
@@ -638,9 +686,7 @@ async function payoutGame(gid,winner){
   }
   const net=total-paid;if(net!==0)await db.ref('users/'+HOST_NAME+'/tokens').transaction(t=>(t||0)+net);
 }
-async function giveTokens(){
-  const uname=document.getElementById('give-user')?.value,amount=parseInt(document.getElementById('give-amount')?.value)||0;
-  if(!uname||amount<1){toast('請選擇玩家並輸入數量','error');return;}
+async function hostGiveTokens(uname, amount){
   spinner(true);
   try{
     await db.ref('users/'+uname+'/tokens').transaction(t=>(t||0)+amount);
@@ -648,6 +694,26 @@ async function giveTokens(){
     await db.ref('announcements').push({text:`🎁 ${uname} 獲得莊家補發 ${amount} 枚代幣`,from:HOST_NAME,at:Date.now()});
     spinner(false);toast(`✅ 已補發 ${amount} 枚給 ${uname}`,'success');
   }catch(e){toast('失敗','error');spinner(false);}
+}
+async function hostSetTokens(uname){
+  const cur=(liveUsers[uname]||{}).tokens||0;
+  const val=prompt(`設定 ${uname} 的代幣數（目前 ${cur}）：`);
+  const n=parseInt(val);if(isNaN(n)||n<0)return;
+  spinner(true);
+  try{
+    await db.ref('users/'+uname+'/tokens').set(n);
+    spinner(false);toast(`✅ ${uname} 代幣已設為 ${n}`,'success');
+  }catch(e){toast('失敗','error');spinner(false);}
+}
+async function hostCancelBet(uname, gid, amount){
+  showConfirm(`確認取消 ${uname} 對 ${gid} 的下注？\n將退還 ${amount} 枚代幣。`, async()=>{
+    spinner(true);
+    try{
+      await db.ref('bets/'+gid+'/'+uname).remove();
+      await db.ref('users/'+uname+'/tokens').transaction(t=>(t||0)+amount);
+      spinner(false);toast(`✅ 已取消並退還 ${amount} 枚`,'success');
+    }catch(e){toast('失敗','error');spinner(false);}
+  });
 }
 async function sendAnnouncement(){
   const msg=document.getElementById('announce-msg')?.value.trim();if(!msg)return;
